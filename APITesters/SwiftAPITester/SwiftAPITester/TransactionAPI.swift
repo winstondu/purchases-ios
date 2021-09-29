@@ -12,9 +12,9 @@
 //  Created by Madeline Beyl on 8/26/21.
 
 import Foundation
-import RevenueCat
+import Purchases
 
-var trans: Transaction!
+var trans: Purchases.Transaction!
 func checkTransactionAPI() {
 
     let rci: String = trans.revenueCatId

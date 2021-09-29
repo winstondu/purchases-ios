@@ -12,16 +12,16 @@
 //  Created by Madeline Beyl on 8/25/21.
 
 import Foundation
-import RevenueCat
+import Purchases
 
-var introE: IntroEligibility!
+var introE: RCIntroEligibility!
 func checkIntroEligibilityAPI() {
-    let status: IntroEligibilityStatus = introE.status
+    let status: RCIntroEligibilityStatus = introE.status
 
     print(introE!, status)
 }
 
-var status: IntroEligibilityStatus!
+var status: RCIntroEligibilityStatus!
 func checkIntroEligibilityEnums() {
     switch status! {
     case .unknown,

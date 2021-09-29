@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		A519264D26EBCEF6007D0BD1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A519264C26EBCEF6007D0BD1 /* main.m */; };
-		A52A8A3C26EC2AEC00F06846 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = A52A8A3B26EC2AEC00F06846 /* RevenueCat */; };
 		A5D614F926EBE84F007DDB75 /* RCOfferingsAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D614DD26EBE84E007DDB75 /* RCOfferingsAPI.m */; };
 		A5D614FA26EBE84F007DDB75 /* RCPackageAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D614DE26EBE84F007DDB75 /* RCPackageAPI.m */; };
 		A5D614FB26EBE84F007DDB75 /* RCOfferingAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D614DF26EBE84F007DDB75 /* RCOfferingAPI.m */; };
@@ -22,6 +21,7 @@
 		A5D6150426EBE84F007DDB75 /* RCTransactionAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D614F426EBE84F007DDB75 /* RCTransactionAPI.m */; };
 		A5D6150526EBE84F007DDB75 /* RCBackendErrorCodeAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D614F726EBE84F007DDB75 /* RCBackendErrorCodeAPI.m */; };
 		A5D6150626EBE84F007DDB75 /* RCEntitlementInfoAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D614F826EBE84F007DDB75 /* RCEntitlementInfoAPI.m */; };
+		A5D743C82703BB9F004AA23F /* Purchases in Frameworks */ = {isa = PBXBuildFile; productRef = A5D743C72703BB9F004AA23F /* Purchases */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -72,7 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A52A8A3C26EC2AEC00F06846 /* RevenueCat in Frameworks */,
+				A5D743C82703BB9F004AA23F /* Purchases in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -154,7 +154,7 @@
 			);
 			name = ObjCAPITester;
 			packageProductDependencies = (
-				A52A8A3B26EC2AEC00F06846 /* RevenueCat */,
+				A5D743C72703BB9F004AA23F /* Purchases */,
 			);
 			productName = ObjCAPITester;
 			productReference = A519264926EBCEF6007D0BD1 /* ObjCAPITester */;
@@ -185,7 +185,7 @@
 			);
 			mainGroup = A519264026EBCEF6007D0BD1;
 			packageReferences = (
-				A519265326EBCFA6007D0BD1 /* XCRemoteSwiftPackageReference "purchases-ios" */,
+				A5D743C62703BB9E004AA23F /* XCRemoteSwiftPackageReference "purchases-ios" */,
 			);
 			productRefGroup = A519264A26EBCEF6007D0BD1 /* Products */;
 			projectDirPath = "";
@@ -393,21 +393,21 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		A519265326EBCFA6007D0BD1 /* XCRemoteSwiftPackageReference "purchases-ios" */ = {
+		A5D743C62703BB9E004AA23F /* XCRemoteSwiftPackageReference "purchases-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/RevenueCat/purchases-ios.git";
 			requirement = {
-				branch = main;
-				kind = branch;
+				kind = exactVersion;
+				version = 3.12.4;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		A52A8A3B26EC2AEC00F06846 /* RevenueCat */ = {
+		A5D743C72703BB9F004AA23F /* Purchases */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = A519265326EBCFA6007D0BD1 /* XCRemoteSwiftPackageReference "purchases-ios" */;
-			productName = RevenueCat;
+			package = A5D743C62703BB9E004AA23F /* XCRemoteSwiftPackageReference "purchases-ios" */;
+			productName = Purchases;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

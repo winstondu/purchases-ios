@@ -12,18 +12,18 @@
 //  Created by Madeline Beyl on 8/25/21.
 
 import Foundation
-import RevenueCat
+import Purchases
 
-var purchaserInfo: PurchaserInfo!
+var purchaserInfo: Purchases.PurchaserInfo!
 func checkPurchaserInfoAPI() {
-    let entitlementInfo: EntitlementInfos = purchaserInfo.entitlements
+    let entitlementInfo: Purchases.EntitlementInfos = purchaserInfo.entitlements
     let asubs: Set<String> = purchaserInfo.activeSubscriptions
     let appis: Set<String> = purchaserInfo.allPurchasedProductIdentifiers
     let led: Date? = purchaserInfo.latestExpirationDate
 
     // should have dep. warning 'nonConsumablePurchases' is deprecated: use nonSubscriptionTransactions
     let ncp: Set<String> = purchaserInfo.nonConsumablePurchases
-    let nst: [Transaction] = purchaserInfo.nonSubscriptionTransactions
+    let nst: [Purchases.Transaction] = purchaserInfo.nonSubscriptionTransactions
     let oav: String? = purchaserInfo.originalApplicationVersion
     let opd: Date? = purchaserInfo.originalPurchaseDate
     let rDate: Date? = purchaserInfo.requestDate

@@ -12,7 +12,7 @@
 //  Created by Madeline Beyl on 9/7/21.
 
 #import "RCPurchasesErrorCodeAPI.h"
-@import RevenueCat;
+@import Purchases;
 
 @implementation RCPurchasesErrorCodeAPI
 
@@ -37,7 +37,7 @@
         case RCReceiptInUseByOtherSubscriberError:
             
         case RCInvalidAppUserIdError:
-        case RCOperationAlreadyInProgressForProductError:
+        case RCOperationAlreadyInProgressError:
         case RCUnknownBackendError:
         case RCInvalidAppleSubscriptionKeyError:
         case RCIneligibleError:

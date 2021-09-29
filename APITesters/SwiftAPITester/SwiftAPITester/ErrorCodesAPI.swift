@@ -12,9 +12,9 @@
 //  Created by Madeline Beyl on 9/5/21.
 
 import Foundation
-import RevenueCat
+import Purchases
 
-var backendErrCode: BackendErrorCode!
+var backendErrCode: Purchases.RevenueCatBackendErrorCode!
 func checkErrorCodeEnums() {
     switch backendErrCode! {
     case .invalidPlatform,
@@ -36,13 +36,12 @@ func checkErrorCodeEnums() {
          .userIneligibleForPromoOffer,
          .invalidAppleSubscriptionKey,
          .invalidSubscriberAttributes,
-         .invalidSubscriberAttributesBody,
-         .unknownError:
+         .invalidSubscriberAttributesBody:
         print(backendErrCode!)
     }
 }
 
-var errCode: ErrorCode!
+var errCode: Purchases.ErrorCode.Code!
 func checkPurchasesErrorCodeEnums() {
     switch errCode! {
     case .unknownError,
@@ -68,11 +67,7 @@ func checkPurchasesErrorCodeEnums() {
          .invalidSubscriberAttributesError,
          .logOutAnonymousUserError,
          .configurationError,
-         .operationAlreadyInProgressForProductError,
-         .emptySubscriberAttributes,
-         .productDiscountMissingIdentifierError,
-         .missingAppUserIDForAliasCreationError,
-         .productDiscountMissingSubscriptionGroupIdentifierError:
+         .operationAlreadyInProgressError:
         print(errCode!)
     }
 }

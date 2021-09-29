@@ -12,7 +12,7 @@
 //  Created by Madeline Beyl on 8/25/21.
 
 import Foundation
-import RevenueCat
+import Purchases
 import StoreKit
 
 func checkPurchasesAPI() {
@@ -42,15 +42,15 @@ func checkPurchasesAPI() {
     checkPurchasesPurchasingAPI(purchases: purch)
 }
 
-var periodType: PeriodType!
-var oType: PurchaseOwnershipType!
-var logLevel: LogLevel!
+var type: Purchases.PeriodType!
+var oType: RCPurchaseOwnershipType!
+var logLevel: Purchases.LogLevel!
 func checkPurchasesEnums() {
-    switch periodType! {
+    switch type! {
     case .normal,
          .intro,
          .trial:
-        print(periodType!)
+        print(type!)
     }
 
     switch oType! {
@@ -70,27 +70,29 @@ func checkPurchasesEnums() {
 }
 
 func checkPurchasesConstants() {
-    let finKey = ErrorDetails.finishableKey
-    let errCodeKey = ErrorDetails.readableErrorCodeKey
+//    let errDom = errorDomain
+//    let backendErrDom = backendErrCode
+    let finKey = Purchases.FinishableKey
+    let errCodeKey = Purchases.ReadableErrorCodeKey
 
     print(finKey, errCodeKey)
 }
 
 private func checkStaticMethods() {
-    let logHandler: (LogLevel, String) -> Void = { _, _ in }
-    Purchases.logHandler = logHandler
+    let logHandler: (Purchases.LogLevel, String) -> Void = { _, _ in }
+    Purchases.setLogHandler(logHandler)
 
     let canI: Bool = Purchases.canMakePayments()
     let version = Purchases.frameworkVersion
 
     // both should have deprecation warning
-    Purchases.addAttributionData([String: Any](), from: AttributionNetwork.adjust, forNetworkUserId: "")
-    Purchases.addAttributionData([String: Any](), from: AttributionNetwork.adjust, forNetworkUserId: nil)
+    Purchases.addAttributionData([String: Any](), from: RCAttributionNetwork.adjust, forNetworkUserId: "")
+    Purchases.addAttributionData([String: Any](), from: RCAttributionNetwork.adjust, forNetworkUserId: nil)
 
     let automaticAppleSearchAdsAttributionCollection: Bool = Purchases.automaticAppleSearchAdsAttributionCollection
     // should have deprecation warning 'debugLogsEnabled' is deprecated: use logLevel instead
     let debugLogsEnabled: Bool = Purchases.debugLogsEnabled
-    let logLevel: LogLevel = Purchases.logLevel
+    let logLevel: Purchases.LogLevel = Purchases.logLevel
     let proxyUrl: URL? = Purchases.proxyURL
     let forceUniversalAppStore: Bool = Purchases.forceUniversalAppStore
     let simulatesAskToBuyInSandbox: Bool = Purchases.simulatesAskToBuyInSandbox
@@ -102,52 +104,75 @@ private func checkStaticMethods() {
 }
 
 private func checkPurchasesPurchasingAPI(purchases: Purchases) {
+    let piComplete: Purchases.ReceivePurchaserInfoBlock = { _, _ in }
+    purchases.purchaserInfo(piComplete)
     purchases.purchaserInfo { _, _ in }
+
+    let offeringsComplete: Purchases.ReceiveOfferingsBlock = { _, _ in }
+    purchases.offerings(offeringsComplete)
     purchases.offerings { _, _ in }
+
+    let productsComplete: Purchases.ReceiveProductsBlock = { _ in }
+    purchases.products([String](), productsComplete)
     purchases.products([String]()) { _ in }
 
     let skp: SKProduct = SKProduct()
     let skpd: SKProductDiscount = SKProductDiscount()
     let skmd: SKPaymentDiscount = SKPaymentDiscount()
-    let pack: Package! = nil
+    let pack: Purchases.Package! = nil
 
-    purchases.purchase(product: skp) { _, _, _, _  in }
-    purchases.purchase(package: pack) { _, _, _, _  in }
-    purchases.syncPurchases { _, _ in }
+    let purchaseProductComplete: Purchases.PurchaseCompletedBlock = { _, _, _, _  in }
+    purchases.purchaseProduct(skp, purchaseProductComplete)
+    purchases.purchaseProduct(skp) { _, _, _, _  in }
+    purchases.purchasePackage(pack, purchaseProductComplete)
+    purchases.purchasePackage(pack) { _, _, _, _  in }
 
-    let checkEligComplete: ([String: IntroEligibility]) -> Void = { _ in }
-    purchases.checkTrialOrIntroductoryPriceEligibility([String](), completion: checkEligComplete)
+    purchases.restoreTransactions(piComplete)
+    purchases.syncPurchases(piComplete)
+
+    let checkEligComplete: ([String: RCIntroEligibility]) -> Void = { _ in }
+    purchases.checkTrialOrIntroductoryPriceEligibility([String](), completionBlock: checkEligComplete)
     purchases.checkTrialOrIntroductoryPriceEligibility([String]()) { _ in }
 
-    purchases.paymentDiscount(forProductDiscount: skpd, product: skp) { _, _ in }
+    let discountComplete: Purchases.PaymentDiscountBlock = { _, _ in }
 
-    purchases.purchase(product: skp, discount: skmd) { _, _, _, _  in }
-    purchases.purchase(package: pack, discount: skmd) { _, _, _, _  in }
+    purchases.paymentDiscount(for: skpd, product: skp, completion: discountComplete)
+    purchases.paymentDiscount(for: skpd, product: skp) { _, _ in }
+
+    purchases.purchaseProduct(skp, discount: skmd, purchaseProductComplete)
+    purchases.purchaseProduct(skp, discount: skmd) { _, _, _, _  in }
+    purchases.purchasePackage(pack, discount: skmd, purchaseProductComplete)
+    purchases.purchasePackage(pack, discount: skmd) { _, _, _, _  in }
     purchases.invalidatePurchaserInfoCache()
 
     // PurchasesDelegate
-    let purchaserInfo: PurchaserInfo? = nil
+    let purchaserInfo: Purchases.PurchaserInfo? = nil
     purchases.delegate?.purchases?(purchases, didReceiveUpdated: purchaserInfo!)
 
-    let defermentBlock: DeferredPromotionalPurchaseBlock = { _ in }
+    let defermentBlock: RCDeferredPromotionalPurchaseBlock = { _ in }
     purchases.delegate?.purchases?(purchases, shouldPurchasePromoProduct: skp, defermentBlock: defermentBlock)
     purchases.delegate?.purchases?(purchases, shouldPurchasePromoProduct: skp) { _ in }
 }
 
 private func checkIdentity(purchases: Purchases) {
+    let piComplete: Purchases.ReceivePurchaserInfoBlock = { _, _ in }
+
     // should have deprecation warning 'createAlias' is deprecated: Use logIn instead.
+    purchases.createAlias("", piComplete)
     purchases.createAlias("") { _, _ in }
 
     // should have deprecation warning 'identify' is deprecated: Use logIn instead.
+    purchases.identify("", piComplete)
     purchases.identify("") { _, _ in }
 
     // should have deprecation warning 'reset' is deprecated: Use logOut instead.
+    purchases.reset(piComplete)
     purchases.reset { _, _ in }
 
-    purchases.logOut { _, _ in }
+    purchases.logOut(piComplete)
 
-    let loginComplete: (PurchaserInfo?, Bool, Error?) -> Void = { _, _, _ in }
-    purchases.logIn("", completion: loginComplete)
+    let loginComplete: (Purchases.PurchaserInfo?, Bool, Error?) -> Void = { _, _, _ in }
+    purchases.logIn("", loginComplete)
     purchases.logIn("") { _, _, _ in }
 }
 

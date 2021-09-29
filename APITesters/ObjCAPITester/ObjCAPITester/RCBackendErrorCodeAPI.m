@@ -12,7 +12,7 @@
 //  Created by Madeline Beyl on 9/7/21.
 
 #import "RCBackendErrorCodeAPI.h"
-@import RevenueCat;
+@import Purchases;
 
 @implementation RCBackendErrorCodeAPI
 
