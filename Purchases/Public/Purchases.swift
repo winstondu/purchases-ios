@@ -15,6 +15,7 @@
 // swiftlint:disable file_length function_parameter_count type_body_length
 import Foundation
 import StoreKit
+import SwiftUI
 
 // MARK: Block definitions
 // NOTE: Any changes here must be reflected in RevenueCat.h for ObjC compatibility.
@@ -1032,6 +1033,27 @@ public extension Purchases {
                          completion: @escaping PaymentDiscountBlock) {
         purchasesOrchestrator.paymentDiscount(forProductDiscount: discount, product: product, completion: completion)
     }
+
+    /**
+     * Presents a refund request sheet for the transaction in a window scene
+     */
+    @available(iOS 15.0, macCatalyst 15.0, *)
+    // todo wrapper for refundstatus to make this available in objc?
+    // todo confirm whether revcatid is same as transaction id in storekit
+    @objc func beginRefundRequest(for transaction: Transaction, in scene: UIWindowScene) async throws -> StoreKit.Transaction.RefundRequestStatus
+    {
+        return StoreKit.Transaction.beginRefundRequest(for: transaction.revenueCatId.toUInt, in: scene)
+    }
+
+    /**
+     * Presents a refund request sheet for the transaction in a view controller
+     */
+    // todo this is the macos version
+//    @available(iOS 15.0, macOS 15.0, *)
+//    @objc func beginRefundRequest(for transaction: StoreKit.Transaction, in viewController: NSViewController) {
+//        transaction.
+//    }
+
 
     @available(iOS 12.0, macOS 10.14, macCatalyst 13.0, tvOS 12.0, watchOS 6.2, *)
     private func modernEligibilityHandler(maybeReceiptData data: Data,
