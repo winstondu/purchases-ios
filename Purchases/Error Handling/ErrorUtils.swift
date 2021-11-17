@@ -331,8 +331,16 @@ private extension ErrorUtils {
                 .operationAlreadyInProgressForProductError,
                 .unknownBackendError,
                 .invalidSubscriberAttributesError,
-                .logOutAnonymousUserError:
+                .logOutAnonymousUserError,
+                .receiptInUseByOtherSubscriberError,
+                .configurationError,
+                .unsupportedError,
+                .emptySubscriberAttributes,
+                .productDiscountMissingIdentifierError,
+                .missingAppUserIDForAliasCreationError,
+                .productDiscountMissingSubscriptionGroupIdentifierError:
             Logger.error(code.description)
+
         case .purchaseCancelledError,
                 .storeProblemError,
                 .purchaseNotAllowedError,
@@ -346,17 +354,9 @@ private extension ErrorUtils {
                 .insufficientPermissionsError,
                 .paymentPendingError:
             Logger.appleError(code.description)
-
-        case .receiptInUseByOtherSubscriberError,
-                .configurationError,
-                .unsupportedError,
-                .emptySubscriberAttributes,
-                .productDiscountMissingIdentifierError,
-                .missingAppUserIDForAliasCreationError,
-                .productDiscountMissingSubscriptionGroupIdentifierError:
-            break
-
+            
         @unknown default:
+            Logger.error(code.description)
             break
         }
     }
