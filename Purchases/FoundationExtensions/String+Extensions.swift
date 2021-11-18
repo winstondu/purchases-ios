@@ -16,8 +16,27 @@ import Foundation
 
 extension String {
 
+    enum StringError: Error {
+
+        case escapingEmptyString
+
+    }
+
     func rot13() -> String {
         ROT13.string(self)
+    }
+
+    func escapedOrError() throws -> String {
+        let trimmedAndEscapedAppUserID = self
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+
+        guard trimmedAndEscapedAppUserID.count > 0 else {
+            Logger.warn("Attempting to escape an empty string")
+            throw StringError.escapingEmptyString
+        }
+
+        return trimmedAndEscapedAppUserID
     }
 
     /// Returns `nil` if `self` is an empty string.
@@ -37,13 +56,16 @@ extension String {
     var trimmingWhitespacesAndNewLines: String {
         return self.trimmingCharacters(in: .whitespacesAndNewlines)
     }
+
 }
 
 internal extension Optional where Wrapped == String {
+
     /// Returns `nil` if `self` is an empty string.
     var notEmpty: String? {
         return self.flatMap { $0.notEmpty }
     }
+
 }
 
 private struct ROT13 {
