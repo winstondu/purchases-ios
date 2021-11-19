@@ -182,6 +182,7 @@ class BackendTests: XCTestCase {
                       observerMode: observerMode,
                       subscriberAttributes: nil,
                       completion: { (customerInfo, error) in
+            self.simulateNetworkDelay()
             completionCalled += 1
         })
 
@@ -196,8 +197,9 @@ class BackendTests: XCTestCase {
             completionCalled += 1
         })
 
-        expect(self.httpClient.calls.count).toEventually(equal(1))
         expect(completionCalled).toEventually(equal(2))
+        expect(self.httpClient.calls.count).toEventually(equal(1))
+
     }
 
     func testDoesntCacheForDifferentRestore() {
@@ -217,6 +219,7 @@ class BackendTests: XCTestCase {
                       observerMode: observerMode,
                       subscriberAttributes: nil,
                       completion: { (customerInfo, error) in
+            self.simulateNetworkDelay()
             completionCalled += 1
         })
 
@@ -252,6 +255,7 @@ class BackendTests: XCTestCase {
                       observerMode: observerMode,
                       subscriberAttributes: nil,
                       completion: { (customerInfo, error) in
+            self.simulateNetworkDelay()
             completionCalled += 1
         })
 
@@ -287,6 +291,7 @@ class BackendTests: XCTestCase {
                       observerMode: observerMode,
                       subscriberAttributes: nil,
                       completion: { (customerInfo, error) in
+            self.simulateNetworkDelay()
             completionCalled += 1
         })
         let productInfo: ProductInfo = .createMockProductInfo(currencyCode: "USD")
@@ -323,6 +328,7 @@ class BackendTests: XCTestCase {
                       observerMode: observerMode,
                       subscriberAttributes: nil,
                       completion: { (customerInfo, error) in
+            self.simulateNetworkDelay()
             completionCalled += 1
         })
 
@@ -1014,13 +1020,18 @@ class BackendTests: XCTestCase {
         var completion1Called = false
         var completion2Called = false
 
-        backend?.createAlias(appUserID: userID, newAppUserID: "new_alias", completion: nil)
-        backend?.createAlias(appUserID: userID, newAppUserID: "new_alias", completion: { (error) in
+        backend?.createAlias(appUserID: userID, newAppUserID: "new_alias") { _ in
+            self.simulateNetworkDelay()
+        }
+
+        backend?.createAlias(appUserID: userID, newAppUserID: "new_alias") { _ in
+            self.simulateNetworkDelay()
             completion1Called = true
-        })
-        backend?.createAlias(appUserID: userID, newAppUserID: "new_alias", completion: { (error) in
+        }
+
+        backend?.createAlias(appUserID: userID, newAppUserID: "new_alias") { _ in
             completion2Called = true
-        })
+        }
 
         expect(self.httpClient.calls.count).toEventually(equal(1))
         expect(completion1Called).toEventually(beTrue())
@@ -1035,10 +1046,12 @@ class BackendTests: XCTestCase {
         let response = HTTPResponse(statusCode: 200, response: nil, error: nil)
 
         httpClient.mock(requestPath: "/subscribers/" + currentAppUserID1 + "/alias", response: response)
-        backend?.createAlias(appUserID: currentAppUserID1, newAppUserID: newAppUserID, completion: {_ in })
+        backend?.createAlias(appUserID: currentAppUserID1, newAppUserID: newAppUserID) { _ in
+            self.simulateNetworkDelay()
+        }
 
         httpClient.mock(requestPath: "/subscribers/" + currentAppUserID2 + "/alias", response: response)
-        backend?.createAlias(appUserID: currentAppUserID2, newAppUserID: newAppUserID, completion: {_ in })
+        backend?.createAlias(appUserID: currentAppUserID2, newAppUserID: newAppUserID) { _ in }
 
         expect(self.httpClient.calls.count).toEventually(equal(2))
     }
@@ -1209,6 +1222,7 @@ class BackendTests: XCTestCase {
                       observerMode: observerMode,
                       subscriberAttributes: nil,
                       completion: { (customerInfo, error) in
+            self.simulateNetworkDelay()
             completionCalled += 1
         })
 
@@ -1567,6 +1581,7 @@ class BackendTests: XCTestCase {
                       presentedOfferingIdentifier: nil,
                       observerMode: observerMode,
                       subscriberAttributes: nil, completion: { (customerInfo, error) in
+            self.simulateNetworkDelay()
             completionCalled += 1
         })
 
