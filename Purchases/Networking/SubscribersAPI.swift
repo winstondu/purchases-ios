@@ -27,8 +27,8 @@ class SubscribersAPI {
         self.httpClient = httpClient
         self.authHeaders = authHeaders
         self.callbackQueue = callbackQueue
-        self.aliasCallbackCache = CallbackCache(callbackQueue: callbackQueue)
-        self.customerInfoCallbackCache = CallbackCache(callbackQueue: callbackQueue)
+        self.aliasCallbackCache = CallbackCache<AliasCallback>(callbackQueue: callbackQueue)
+        self.customerInfoCallbackCache = CallbackCache<CustomerInfoCallback>(callbackQueue: callbackQueue)
     }
 
     func createAlias(appUserID: String, newAppUserID: String, completion: PostRequestResponseHandler?) {

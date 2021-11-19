@@ -11,6 +11,8 @@
 //
 //  Created by Joshua Liebowitz on 11/18/21.
 
+import Foundation
+
 class CallbackCache<T> where T: CachableCallback {
 
     var cache: [String: [T]] = [:]
