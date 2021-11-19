@@ -60,8 +60,8 @@ class BackendSubscriberAttributesTests: XCTestCase {
                                 appUserID: appUserID,
                                completion: { (error: Error!) in })
 
+        expect(self.mockHTTPClient.invokedPerformRequestCount).toEventually(equal(1))
         expect(self.mockHTTPClient.invokedPerformRequest) == true
-        expect(self.mockHTTPClient.invokedPerformRequestCount) == 1
 
         guard let receivedParameters = mockHTTPClient.invokedPerformRequestParameters else {
             fatalError("no parameters sent!")
@@ -100,7 +100,7 @@ class BackendSubscriberAttributesTests: XCTestCase {
                                                completionCallCount += 1
                                            })
 
-        expect(self.mockHTTPClient.invokedPerformRequestCount) == 1
+        expect(self.mockHTTPClient.invokedPerformRequestCount).toEventually(equal(1))
         expect(completionCallCount).toEventually(equal(1))
     }
 
@@ -122,7 +122,7 @@ class BackendSubscriberAttributesTests: XCTestCase {
                                              receivedError = error
                                            })
 
-        expect(self.mockHTTPClient.invokedPerformRequestCount) == 1
+        expect(self.mockHTTPClient.invokedPerformRequestCount).toEventually(equal(1))
         expect(completionCallCount).toEventually(equal(1))
         expect(receivedError).toNot(beNil())
         expect(receivedError).to(beAKindOf(Error.self))
@@ -149,7 +149,7 @@ class BackendSubscriberAttributesTests: XCTestCase {
                                              receivedError = error
                                            })
 
-        expect(self.mockHTTPClient.invokedPerformRequestCount) == 1
+        expect(self.mockHTTPClient.invokedPerformRequestCount).toEventually(equal(1))
         expect(completionCallCount).toEventually(equal(1))
         expect(receivedError).toNot(beNil())
         expect(receivedError).to(beAKindOf(Error.self))
@@ -180,7 +180,7 @@ class BackendSubscriberAttributesTests: XCTestCase {
                                              receivedError = error
                                            })
 
-        expect(self.mockHTTPClient.invokedPerformRequestCount) == 1
+        expect(self.mockHTTPClient.invokedPerformRequestCount).toEventually(equal(1))
         expect(completionCallCount).toEventually(equal(1))
         expect(receivedError).toNot(beNil())
         expect(receivedError).to(beAKindOf(Error.self))
@@ -215,7 +215,7 @@ class BackendSubscriberAttributesTests: XCTestCase {
 
                      })
 
-        expect(self.mockHTTPClient.invokedPerformRequestCount) == 1
+        expect(self.mockHTTPClient.invokedPerformRequestCount).toEventually(equal(1))
         expect(completionCallCount).toEventually(equal(1))
         expect(receivedError).toNot(beNil())
         expect(receivedError).to(beAKindOf(Error.self))
@@ -255,7 +255,7 @@ class BackendSubscriberAttributesTests: XCTestCase {
                         receivedError = error
                      })
 
-        expect(self.mockHTTPClient.invokedPerformRequestCount) == 1
+        expect(self.mockHTTPClient.invokedPerformRequestCount).toEventually(equal(1))
         expect(completionCallCount).toEventually(equal(1))
         expect(receivedError).toNot(beNil())
         expect(receivedError).to(beAKindOf(Error.self))
@@ -290,7 +290,7 @@ class BackendSubscriberAttributesTests: XCTestCase {
                                     completionCallCount += 1
                                 })
 
-        expect(self.mockHTTPClient.invokedPerformRequestCount) == 1
+        expect(self.mockHTTPClient.invokedPerformRequestCount).toEventually(equal(1))
 
         guard let receivedParameters = mockHTTPClient.invokedPerformRequestParameters,
             let requestBody = receivedParameters.requestBody else {
@@ -334,6 +334,7 @@ class BackendSubscriberAttributesTests: XCTestCase {
         })
 
         expect(maybeCustomerInfo).toEventually(beNil())
+        expect(maybeReceivedError).toEventuallyNot(beNil())
 
         guard let nsError = maybeReceivedError as NSError? else {
             fail("receivedError is nil")
@@ -374,7 +375,7 @@ class BackendSubscriberAttributesTests: XCTestCase {
                                      completionCallCount += 1
                                 })
 
-        expect(self.mockHTTPClient.invokedPerformRequestCount) == 1
+        expect(self.mockHTTPClient.invokedPerformRequestCount).toEventually(equal(1))
 
         guard let receivedParameters = mockHTTPClient.invokedPerformRequestParameters,
             let requestBody = receivedParameters.requestBody else {
@@ -413,8 +414,8 @@ class BackendSubscriberAttributesTests: XCTestCase {
                                     receivedError = error as NSError?
                                 })
 
-        expect(self.mockHTTPClient.invokedPerformRequestCount) == 1
-        expect(receivedError).toNot(beNil())
+        expect(self.mockHTTPClient.invokedPerformRequestCount).toEventually(equal(1))
+        expect(receivedError).toEventuallyNot(beNil())
         guard let nonNilReceivedError = receivedError else {
             fail("missing receivedError")
             return
@@ -458,9 +459,9 @@ class BackendSubscriberAttributesTests: XCTestCase {
                                     receivedError = error as NSError?
                                 })
 
-        expect(self.mockHTTPClient.invokedPerformRequestCount) == 1
+        expect(self.mockHTTPClient.invokedPerformRequestCount).toEventually(equal(1))
 
-        expect(receivedError).toNot(beNil())
+        expect(receivedError).toEventuallyNot(beNil())
         guard let nonNilReceivedError = receivedError else { fatalError() }
         expect(nonNilReceivedError.successfullySynced) == true
         expect(nonNilReceivedError.subscriberAttributesErrors)
