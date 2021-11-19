@@ -83,5 +83,3 @@ class SubscribersAPI {
     }
 
 }
-
-extension SubscribersAPI: CustomerInfoResponseHandling, SubscriberAttributesMarshalling {}

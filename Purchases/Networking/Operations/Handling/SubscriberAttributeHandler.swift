@@ -7,22 +7,19 @@
 //
 //      https://opensource.org/licenses/MIT
 //
-//  SubscriberAttributeHandling.swift
+//  SubscriberAttributeHandler.swift
 //
 //  Created by Joshua Liebowitz on 11/18/21.
 
 import Foundation
 
-protocol SubscriberAttributeHandling: CustomerInfoResponseHandling {
+class SubscriberAttributeHandler {
 
-    func handleSubscriberAttributesResult(statusCode: Int,
-                                          response: [String: Any]?,
-                                          maybeError: Error?,
-                                          completion: PostRequestResponseHandler?)
+    let userInfoAttributeParser: UserInfoAttributeParser
 
-}
-
-extension SubscriberAttributeHandling {
+    init(userInfoAttributeParser: UserInfoAttributeParser = UserInfoAttributeParser()) {
+        self.userInfoAttributeParser = userInfoAttributeParser
+    }
 
     func handleSubscriberAttributesResult(statusCode: Int,
                                           response: [String: Any]?,
@@ -40,7 +37,8 @@ extension SubscriberAttributeHandling {
         let responseError: Error?
 
         if let response = response, statusCode > HTTPStatusCodes.redirect.rawValue {
-            let extraUserInfo = attributesUserInfoFromResponse(response: response, statusCode: statusCode)
+            let extraUserInfo = self.userInfoAttributeParser
+                .attributesUserInfoFromResponse(response: response, statusCode: statusCode)
             let backendErrorCode = BackendErrorCode(maybeCode: response["code"])
             responseError = ErrorUtils.backendError(withBackendCode: backendErrorCode,
                                                     backendMessage: response["message"] as? String,

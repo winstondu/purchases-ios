@@ -17,10 +17,17 @@ class PostSubscriberAttributesOperation: NetworkOperation {
 
     let httpClient: HTTPClient
     let authHeaders: [String: String]
+    let subscriberAttributesMarshaller: SubscriberAttributesMarshaller
+    let subscriberAttributeHandler: SubscriberAttributeHandler
 
-    init(httpClient: HTTPClient, authHeaders: [String: String]) {
+    init(httpClient: HTTPClient,
+         authHeaders: [String: String],
+         subscriberAttributesMarshaller: SubscriberAttributesMarshaller = SubscriberAttributesMarshaller(),
+         subscriberAttributeHandler: SubscriberAttributeHandler = SubscriberAttributeHandler()) {
         self.httpClient = httpClient
         self.authHeaders = authHeaders
+        self.subscriberAttributesMarshaller = subscriberAttributesMarshaller
+        self.subscriberAttributeHandler = subscriberAttributeHandler
     }
 
     func post(subscriberAttributes: SubscriberAttributeDict,
@@ -39,18 +46,17 @@ class PostSubscriberAttributesOperation: NetworkOperation {
 
         let path = "/subscribers/\(appUserID)/attributes"
 
-        let attributesInBackendFormat = subscriberAttributesToDict(subscriberAttributes: subscriberAttributes)
+        let attributesInBackendFormat = self.subscriberAttributesMarshaller
+            .subscriberAttributesToDict(subscriberAttributes: subscriberAttributes)
         httpClient.performPOSTRequest(serially: true,
                                       path: path,
                                       requestBody: ["attributes": attributesInBackendFormat],
                                       headers: authHeaders) { statusCode, response, error in
-            self.handleSubscriberAttributesResult(statusCode: statusCode,
-                                                  response: response,
-                                                  maybeError: error,
-                                                  completion: completion)
+            self.subscriberAttributeHandler.handleSubscriberAttributesResult(statusCode: statusCode,
+                                                                             response: response,
+                                                                             maybeError: error,
+                                                                             completion: completion)
         }
     }
 
 }
-
-extension PostSubscriberAttributesOperation: SubscriberAttributesMarshalling, SubscriberAttributeHandling {}

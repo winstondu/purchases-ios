@@ -18,12 +18,18 @@ class PostReceiptDataOperation: NetworkOperation {
     private let customerInfoCallbackCache: CallbackCache<CustomerInfoCallback>
     let httpClient: HTTPClient
     let authHeaders: [String: String]
+    let subscriberAttributesMarshaller: SubscriberAttributesMarshaller
+    let customerInfoResponseHandler: CustomerInfoResponseHandler
 
     init(httpClient: HTTPClient,
          authHeaders: [String: String],
+         subscriberAttributesMarshaller: SubscriberAttributesMarshaller = SubscriberAttributesMarshaller(),
+         customerInfoResponseHandler: CustomerInfoResponseHandler = CustomerInfoResponseHandler(),
          customerInfoCallbackCache: CallbackCache<CustomerInfoCallback>) {
         self.httpClient = httpClient
         self.authHeaders = authHeaders
+        self.subscriberAttributesMarshaller = subscriberAttributesMarshaller
+        self.customerInfoResponseHandler = customerInfoResponseHandler
         self.customerInfoCallbackCache = customerInfoCallbackCache
     }
 
@@ -60,7 +66,8 @@ class PostReceiptDataOperation: NetworkOperation {
         }
 
         if let subscriberAttributesByKey = subscriberAttributesByKey {
-            let attributesInBackendFormat = subscriberAttributesToDict(subscriberAttributes: subscriberAttributesByKey)
+            let attributesInBackendFormat = self.subscriberAttributesMarshaller
+                .subscriberAttributesToDict(subscriberAttributes: subscriberAttributesByKey)
             body["attributes"] = attributesInBackendFormat
         }
 
@@ -73,13 +80,11 @@ class PostReceiptDataOperation: NetworkOperation {
                                       requestBody: body,
                                       headers: authHeaders) { statusCode, response, error in
             self.customerInfoCallbackCache.performOnAllItemsAndRemoveFromCache(withKey: cacheKey) { callbackObject in
-                self.handle(customerInfoResponse: response,
-                            statusCode: statusCode,
-                            maybeError: error,
-                            completion: callbackObject.callback)
+                self.customerInfoResponseHandler.handle(customerInfoResponse: response,
+                                                        statusCode: statusCode,
+                                                        maybeError: error,
+                                                        completion: callbackObject.callback)
             }
         }
     }
 }
-
-extension PostReceiptDataOperation: SubscriberAttributesMarshalling, CustomerInfoResponseHandling { }

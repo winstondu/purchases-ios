@@ -18,12 +18,15 @@ class GetSubscriberDataOperation: NetworkOperation {
     private let customerInfoCallbackCache: CallbackCache<CustomerInfoCallback>
     let httpClient: HTTPClient
     let authHeaders: [String: String]
+    let customerInfoResponseHandler: CustomerInfoResponseHandler
 
     init(httpClient: HTTPClient,
          authHeaders: [String: String],
+         customerInfoResponseHandler: CustomerInfoResponseHandler = CustomerInfoResponseHandler(),
          customerInfoCallbackCache: CallbackCache<CustomerInfoCallback>) {
         self.httpClient = httpClient
         self.authHeaders = authHeaders
+        self.customerInfoResponseHandler = customerInfoResponseHandler
         self.customerInfoCallbackCache = customerInfoCallbackCache
     }
 
@@ -47,14 +50,12 @@ class GetSubscriberDataOperation: NetworkOperation {
             }
 
             self.customerInfoCallbackCache.performOnAllItemsAndRemoveFromCache(withKey: path) { callbackObject in
-                self.handle(customerInfoResponse: response,
-                            statusCode: statusCode,
-                            maybeError: error,
-                            completion: callbackObject.callback)
+                self.customerInfoResponseHandler.handle(customerInfoResponse: response,
+                                                        statusCode: statusCode,
+                                                        maybeError: error,
+                                                        completion: callbackObject.callback)
             }
         }
     }
 
 }
-
-extension GetSubscriberDataOperation: CustomerInfoResponseHandling {}

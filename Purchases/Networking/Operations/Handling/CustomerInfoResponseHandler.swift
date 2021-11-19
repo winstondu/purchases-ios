@@ -7,23 +7,19 @@
 //
 //      https://opensource.org/licenses/MIT
 //
-//  CustomerInfoResponseHandling.swift
+//  CustomerInfoResponseHandler.swift
 //
 //  Created by Joshua Liebowitz on 11/18/21.
 
 import Foundation
 
-protocol CustomerInfoResponseHandling {
-    // swiftlint:disable:next function_parameter_count
-    func handle(customerInfoResponse maybeResponse: [String: Any]?,
-                statusCode: Int,
-                maybeError: Error?,
-                file: String,
-                function: String,
-                completion: BackendCustomerInfoResponseHandler)
-}
+class CustomerInfoResponseHandler {
 
-extension CustomerInfoResponseHandling {
+    let userInfoAttributeParser: UserInfoAttributeParser
+
+    init(userInfoAttributeParser: UserInfoAttributeParser = UserInfoAttributeParser()) {
+        self.userInfoAttributeParser = userInfoAttributeParser
+    }
 
     // swiftlint:disable:next function_body_length
     func handle(customerInfoResponse maybeResponse: [String: Any]?,
@@ -63,8 +59,8 @@ extension CustomerInfoResponseHandling {
             return
         }
 
-        let subscriberAttributesErrorInfo = attributesUserInfoFromResponse(response: maybeResponse ?? [:],
-                                                                           statusCode: statusCode)
+        let subscriberAttributesErrorInfo = self.userInfoAttributeParser
+            .attributesUserInfoFromResponse(response: maybeResponse ?? [:], statusCode: statusCode)
 
         let hasError = (isErrorStatusCode
                         || subscriberAttributesErrorInfo[Backend.RCAttributeErrorsKey] != nil
@@ -89,27 +85,6 @@ extension CustomerInfoResponseHandling {
         }
 
         completion(maybeCustomerInfo, nil)
-    }
-
-    func attributesUserInfoFromResponse(response: [String: Any], statusCode: Int) -> [String: Any] {
-        var resultDict: [String: Any] = [:]
-        let isInternalServerError = statusCode >= HTTPStatusCodes.internalServerError.rawValue
-        let isNotFoundError = statusCode == HTTPStatusCodes.notFoundError.rawValue
-
-        let successfullySynced = !(isInternalServerError || isNotFoundError)
-        resultDict[Backend.RCSuccessfullySyncedKey as String] = successfullySynced
-
-        let hasAttributesResponseContainerKey = (response[Backend.RCAttributeErrorsResponseKey] != nil)
-        let attributesResponseDict = hasAttributesResponseContainerKey
-        ? response[Backend.RCAttributeErrorsResponseKey]
-        : response
-
-        if let attributesResponseDict = attributesResponseDict as? [String: Any],
-           let attributesErrors = attributesResponseDict[Backend.RCAttributeErrorsKey] {
-            resultDict[Backend.RCAttributeErrorsKey] = attributesErrors
-        }
-
-        return resultDict
     }
 
     func parseCustomerInfo(fromMaybeResponse maybeResponse: [String: Any]?) throws -> CustomerInfo {

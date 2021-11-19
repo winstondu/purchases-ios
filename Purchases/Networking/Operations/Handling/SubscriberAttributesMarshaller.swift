@@ -7,19 +7,13 @@
 //
 //      https://opensource.org/licenses/MIT
 //
-//  SubscriberAttributesMarshalling.swift
+//  SubscriberAttributesMarshaller.swift
 //
 //  Created by Joshua Liebowitz on 11/18/21.
 
 import Foundation
 
-protocol SubscriberAttributesMarshalling {
-
-    func subscriberAttributesToDict(subscriberAttributes: SubscriberAttributeDict) -> [String: Any]
-
-}
-
-extension SubscriberAttributesMarshalling {
+class SubscriberAttributesMarshaller {
 
     func subscriberAttributesToDict(subscriberAttributes: SubscriberAttributeDict) -> [String: Any] {
         var attributesByKey: [String: Any] = [:]
