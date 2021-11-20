@@ -54,7 +54,8 @@ class Backend {
         self.authHeaders = ["Authorization": "Bearer \(apiKey)"]
         self.subscribersAPI = SubscribersAPI(httpClient: httpClient,
                                              authHeaders: self.authHeaders,
-                                             callbackQueue: self.callbackQueue)
+                                             callbackQueue: self.callbackQueue,
+                                             operationQueue: self.operationQueue)
     }
 
     func createAlias(appUserID: String, newAppUserID: String, completion: PostRequestResponseHandler?) {

@@ -22,11 +22,14 @@ class SubscribersAPI {
     private let aliasCallbackCache: CallbackCache<AliasCallback>
     private let customerInfoCallbackCache: CallbackCache<CustomerInfoCallback>
 
-    init(httpClient: HTTPClient, authHeaders: [String: String], callbackQueue: DispatchQueue) {
-        self.operationQueue = OperationQueue()
+    init(httpClient: HTTPClient,
+         authHeaders: [String: String],
+         callbackQueue: DispatchQueue,
+         operationQueue: OperationQueue) {
         self.httpClient = httpClient
         self.authHeaders = authHeaders
         self.callbackQueue = callbackQueue
+        self.operationQueue = operationQueue
         self.aliasCallbackCache = CallbackCache<AliasCallback>(callbackQueue: callbackQueue)
         self.customerInfoCallbackCache = CallbackCache<CustomerInfoCallback>(callbackQueue: callbackQueue)
     }
