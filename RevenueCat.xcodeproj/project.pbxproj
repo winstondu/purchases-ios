@@ -257,6 +257,13 @@
 		B35042C426CDB79A00905B95 /* Purchases.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35042C326CDB79A00905B95 /* Purchases.swift */; };
 		B35042C626CDD3B100905B95 /* PurchasesDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35042C526CDD3B100905B95 /* PurchasesDelegate.swift */; };
 		B35F9E0926B4BEED00095C3F /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35F9E0826B4BEED00095C3F /* String+Extensions.swift */; };
+		B36067E527486D1C005663C7 /* LogInOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36067E427486D1C005663C7 /* LogInOperation.swift */; };
+		B36067E727486DAD005663C7 /* LogInCallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36067E627486DAD005663C7 /* LogInCallback.swift */; };
+		B36067E927486FCB005663C7 /* OfferingsCallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36067E827486FCB005663C7 /* OfferingsCallback.swift */; };
+		B36067EB27487030005663C7 /* GetOfferingsOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36067EA27487030005663C7 /* GetOfferingsOperation.swift */; };
+		B36067ED27487675005663C7 /* PostOfferForSigningOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36067EC27487675005663C7 /* PostOfferForSigningOperation.swift */; };
+		B36067EF27487B5C005663C7 /* PostAttributionDataOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36067EE27487B5C005663C7 /* PostAttributionDataOperation.swift */; };
+		B36067F127487C35005663C7 /* GetIntroEligibilityOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36067F027487C35005663C7 /* GetIntroEligibilityOperation.swift */; };
 		B3645F3D26E042B9002C490E /* RevenueCat.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DC5621824EC63430031F69B /* RevenueCat.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B36824BE268FBC5B00957E4C /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B36824BD268FBC5B00957E4C /* XCTest.framework */; };
 		B36824BF268FBC8700957E4C /* SubscriberAttributeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D8DB34A24072AAE00BE3D31 /* SubscriberAttributeTests.swift */; };
@@ -581,6 +588,13 @@
 		B35042C326CDB79A00905B95 /* Purchases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Purchases.swift; sourceTree = "<group>"; };
 		B35042C526CDD3B100905B95 /* PurchasesDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchasesDelegate.swift; sourceTree = "<group>"; };
 		B35F9E0826B4BEED00095C3F /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
+		B36067E427486D1C005663C7 /* LogInOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInOperation.swift; sourceTree = "<group>"; };
+		B36067E627486DAD005663C7 /* LogInCallback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInCallback.swift; sourceTree = "<group>"; };
+		B36067E827486FCB005663C7 /* OfferingsCallback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferingsCallback.swift; sourceTree = "<group>"; };
+		B36067EA27487030005663C7 /* GetOfferingsOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetOfferingsOperation.swift; sourceTree = "<group>"; };
+		B36067EC27487675005663C7 /* PostOfferForSigningOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostOfferForSigningOperation.swift; sourceTree = "<group>"; };
+		B36067EE27487B5C005663C7 /* PostAttributionDataOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAttributionDataOperation.swift; sourceTree = "<group>"; };
+		B36067F027487C35005663C7 /* GetIntroEligibilityOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetIntroEligibilityOperation.swift; sourceTree = "<group>"; };
 		B36824BD268FBC5B00957E4C /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		B372EC53268FEDC60099171E /* PromotionalOffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromotionalOffer.swift; sourceTree = "<group>"; };
 		B372EC55268FEF020099171E /* ProductInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductInfo.swift; sourceTree = "<group>"; };
@@ -1247,6 +1261,8 @@
 				B3146C3227470D7B003CBA28 /* CallbackCache.swift */,
 				B3772F7E2745ED360017BBF3 /* CallbackCacheStatus.swift */,
 				B3146C3727470F18003CBA28 /* CustomerInfoCallback.swift */,
+				B36067E627486DAD005663C7 /* LogInCallback.swift */,
+				B36067E827486FCB005663C7 /* OfferingsCallback.swift */,
 			);
 			path = Caching;
 			sourceTree = "<group>";
@@ -1256,8 +1272,13 @@
 			children = (
 				B381667127472DD40093A1C7 /* Handling */,
 				B3146C3E27472363003CBA28 /* CreateAliasOperation.swift */,
+				B36067F027487C35005663C7 /* GetIntroEligibilityOperation.swift */,
+				B36067EA27487030005663C7 /* GetOfferingsOperation.swift */,
 				B381666A27472B540093A1C7 /* GetSubscriberDataOperation.swift */,
+				B36067E427486D1C005663C7 /* LogInOperation.swift */,
 				B3146C40274723B0003CBA28 /* NetworkOperation.swift */,
+				B36067EE27487B5C005663C7 /* PostAttributionDataOperation.swift */,
+				B36067EC27487675005663C7 /* PostOfferForSigningOperation.swift */,
 				B3146C3A274713F2003CBA28 /* PostReceiptDataOperation.swift */,
 				B381666D27472C170093A1C7 /* PostSubscriberAttributesOperation.swift */,
 			);
@@ -1752,6 +1773,7 @@
 				2DDF419724F6F331005BC22D /* DateExtensions.swift in Sources */,
 				9A65E0A52591A23500DE00B0 /* PurchaseStrings.swift in Sources */,
 				57EAE52B274332830060EB74 /* Obsoletions.swift in Sources */,
+				B36067EF27487B5C005663C7 /* PostAttributionDataOperation.swift in Sources */,
 				B3C1AEFA268FF4DB0013D50D /* ProductInfoEnums.swift in Sources */,
 				2DC5623024EC63730031F69B /* OperationDispatcher.swift in Sources */,
 				57A0FBF22749CF66009E2FC3 /* SynchronizedUserDefaults.swift in Sources */,
@@ -1762,6 +1784,8 @@
 				F5714EC226D8D82100635477 /* EntitlementProductData+Extensions.swift in Sources */,
 				354895D6267BEDE3001DC5B1 /* ReservedSubscriberAttributes.swift in Sources */,
 				2D11F5E1250FF886005A70E8 /* AttributionStrings.swift in Sources */,
+				B36067EB27487030005663C7 /* GetOfferingsOperation.swift in Sources */,
+				B36067F127487C35005663C7 /* GetIntroEligibilityOperation.swift in Sources */,
 				2CD72944268A826F00BFC976 /* Date+Extensions.swift in Sources */,
 				B3AA6238268B926F00894871 /* SystemInfo.swift in Sources */,
 				2D294E5C26DECFD500B8FE4F /* StoreKit2TransactionListener.swift in Sources */,
@@ -1775,7 +1799,9 @@
 				B33CEAA0268CDCC9008A3144 /* ISOPeriodFormatter.swift in Sources */,
 				2DDF41A324F6F331005BC22D /* ReceiptParser.swift in Sources */,
 				35D832F4262E606500E60AC5 /* HTTPResponse.swift in Sources */,
+				B36067E527486D1C005663C7 /* LogInOperation.swift in Sources */,
 				A56F9AB126990E9200AFC48F /* CustomerInfo.swift in Sources */,
+				B36067ED27487675005663C7 /* PostOfferForSigningOperation.swift in Sources */,
 				2DDF41AE24F6F37C005BC22D /* InAppPurchase.swift in Sources */,
 				B32B750126868C1D005647BF /* EntitlementInfo.swift in Sources */,
 				35F82BB426A9A74D0051DF03 /* HTTPClient.swift in Sources */,
@@ -1846,8 +1872,10 @@
 				B302206E2728B798008F1A0D /* BackendErrorStrings.swift in Sources */,
 				35D0E5D026A5886C0099EAD8 /* ErrorUtils.swift in Sources */,
 				B372EC54268FEDC60099171E /* PromotionalOffer.swift in Sources */,
+				B36067E927486FCB005663C7 /* OfferingsCallback.swift in Sources */,
 				B3146C3F27472363003CBA28 /* CreateAliasOperation.swift in Sources */,
 				9A65DFDE258AD60A00DE00B0 /* LogIntent.swift in Sources */,
+				B36067E727486DAD005663C7 /* LogInCallback.swift in Sources */,
 				B35042C626CDD3B100905B95 /* PurchasesDelegate.swift in Sources */,
 				B3146C3D2747157D003CBA28 /* SubscriberAttributesMarshaller.swift in Sources */,
 				0313FD41268A506400168386 /* DateProvider.swift in Sources */,

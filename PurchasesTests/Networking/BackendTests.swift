@@ -291,7 +291,6 @@ class BackendTests: XCTestCase {
                       observerMode: observerMode,
                       subscriberAttributes: nil,
                       completion: { (customerInfo, error) in
-            self.simulateNetworkDelay()
             completionCalled += 1
         })
         let productInfo: ProductInfo = .createMockProductInfo(currencyCode: "USD")
@@ -306,7 +305,7 @@ class BackendTests: XCTestCase {
                       completion: { (customerInfo, error) in
             completionCalled += 1
         })
-
+        
         expect(self.httpClient.calls.count).toEventually(equal(2))
         expect(completionCalled).toEventually(equal(2))
     }
@@ -696,9 +695,10 @@ class BackendTests: XCTestCase {
                                      completion: {(productEligibility, error) in
             expect(error).to(beNil())
             eligibility = productEligibility
+
         })
 
-        expect(self.httpClient.calls.count).to(equal(1))
+        expect(self.httpClient.calls.count).toEventually(equal(1))
         if httpClient.calls.count > 0 {
             let call = httpClient.calls[0]
 
@@ -735,7 +735,8 @@ class BackendTests: XCTestCase {
             expect(error).to(beNil())
             eligibility = productEligibility
         })
-
+        
+        expect(eligibility).toEventuallyNot(beNil())
         expect(eligibility!["producta"]!.status).toEventually(equal(IntroEligibilityStatus.unknown))
         expect(eligibility!["productb"]!.status).toEventually(equal(IntroEligibilityStatus.unknown))
         expect(eligibility!["productc"]!.status).toEventually(equal(IntroEligibilityStatus.unknown))
@@ -758,6 +759,7 @@ class BackendTests: XCTestCase {
             eligibility = productEligibility
         })
 
+        expect(eligibility).toEventuallyNot(beNil())
         expect(eligibility!["producta"]!.status).toEventually(equal(IntroEligibilityStatus.unknown))
         expect(eventualError).toEventuallyNot(beNil())
         expect(eventualError?.domain).to(equal(RCPurchasesErrorCodeDomain))
@@ -812,6 +814,7 @@ class BackendTests: XCTestCase {
             eligibility = productEligbility
         })
 
+        expect(eligibility).toEventuallyNot(beNil())
         expect(eligibility!["producta"]!.status).toEventually(equal(IntroEligibilityStatus.unknown))
         expect(eligibility!["productb"]!.status).toEventually(equal(IntroEligibilityStatus.unknown))
         expect(eligibility!["productc"]!.status).toEventually(equal(IntroEligibilityStatus.unknown))
@@ -833,7 +836,7 @@ class BackendTests: XCTestCase {
             offeringsData = responseFromBackend
         })
 
-        expect(self.httpClient.calls.count).toNot(equal(0))
+        expect(self.httpClient.calls.count).toEventuallyNot(equal(0))
         expect(offeringsData).toEventuallyNot(beNil())
     }
 
@@ -844,7 +847,7 @@ class BackendTests: XCTestCase {
 
         backend?.getOfferings(appUserID: userID) { _, _ in }
 
-        expect(self.httpClient.calls.count).to(equal(1))
+        expect(self.httpClient.calls.count).toEventually(equal(1))
         expect(self.httpClient.calls[0].serially).to(beTrue())
     }
     
@@ -855,7 +858,7 @@ class BackendTests: XCTestCase {
         backend?.getOfferings(appUserID: userID, completion: { (newOfferings, error) in })
         backend?.getOfferings(appUserID: userID, completion: { (newOfferings, error) in })
 
-        expect(self.httpClient.calls.count).to(equal(1))
+        expect(self.httpClient.calls.count).toEventually(equal(1))
     }
 
     func testGetEntitlementsDoesntCacheForMultipleUserID() {
@@ -867,7 +870,7 @@ class BackendTests: XCTestCase {
         backend?.getOfferings(appUserID: userID, completion: { (newOfferings, error) in })
         backend?.getOfferings(appUserID: userID2, completion: { (newOfferings, error) in })
 
-        expect(self.httpClient.calls.count).to(equal(2))
+        expect(self.httpClient.calls.count).toEventually(equal(2))
     }
 
     let oneOfferingResponse = [
@@ -944,7 +947,7 @@ class BackendTests: XCTestCase {
                       appUserID: userID,
                       completion: nil)
 
-        expect(self.httpClient.calls.count).to(equal(1))
+        expect(self.httpClient.calls.count).toEventually(equal(1))
         if (self.httpClient.calls.count == 0) {
             return
         }
@@ -1379,7 +1382,7 @@ class BackendTests: XCTestCase {
                                        body: body,
                                        headers: ["Authorization": "Bearer " + apiKey])
 
-        expect(self.httpClient.calls.count).to(equal(1))
+        expect(self.httpClient.calls.count).toEventually(equal(1))
 
         if self.httpClient.calls.count > 0 {
             let call = self.httpClient.calls[0]
@@ -1836,11 +1839,13 @@ class BackendTests: XCTestCase {
         let _ = mockLoginRequest(appUserID: currentAppUserID, statusCode: 201, response: mockCustomerInfoDict)
 
         backend?.logIn(currentAppUserID: currentAppUserID,
-                       newAppUserID: newAppUserID) { _,_,_  in }
+                       newAppUserID: newAppUserID) { _,_,_  in
+            self.simulateNetworkDelay()
+        }
         backend?.logIn(currentAppUserID: currentAppUserID,
                        newAppUserID: newAppUserID) { _,_,_  in }
 
-        expect(self.httpClient.calls.count).to(equal(1))
+        expect(self.httpClient.calls.count).toEventually(equal(1))
     }
 
     func testLoginDoesntCacheForDifferentNewUserID() {
@@ -1851,11 +1856,13 @@ class BackendTests: XCTestCase {
         let _ = mockLoginRequest(appUserID: currentAppUserID, statusCode: 201, response: mockCustomerInfoDict)
 
         backend?.logIn(currentAppUserID: currentAppUserID,
-                       newAppUserID: newAppUserID) { _,_,_  in }
+                       newAppUserID: newAppUserID) { _,_,_  in
+            self.simulateNetworkDelay()
+        }
         backend?.logIn(currentAppUserID: currentAppUserID,
                        newAppUserID: secondNewAppUserID) { _,_,_  in }
 
-        expect(self.httpClient.calls.count).to(equal(2))
+        expect(self.httpClient.calls.count).toEventually(equal(2))
     }
 
     func testLoginDoesntCacheForDifferentCurrentUserID() {
@@ -1866,11 +1873,13 @@ class BackendTests: XCTestCase {
         let _ = mockLoginRequest(appUserID: currentAppUserID, statusCode: 201, response: mockCustomerInfoDict)
 
         backend?.logIn(currentAppUserID: currentAppUserID,
-                       newAppUserID: newAppUserID) { _,_,_  in }
+                       newAppUserID: newAppUserID) { _,_,_  in
+            self.simulateNetworkDelay()
+        }
         backend?.logIn(currentAppUserID: currentAppUserID2,
                        newAppUserID: newAppUserID) { _,_,_  in }
 
-        expect(self.httpClient.calls.count).to(equal(2))
+        expect(self.httpClient.calls.count).toEventually(equal(2))
     }
 
     func testLoginCallsAllCompletionBlocksInCache() {
@@ -1884,6 +1893,7 @@ class BackendTests: XCTestCase {
 
         backend?.logIn(currentAppUserID: currentAppUserID,
                        newAppUserID: newAppUserID) { _,_,_  in
+            self.simulateNetworkDelay()
             completion1Called = true
         }
         backend?.logIn(currentAppUserID: currentAppUserID,
@@ -1891,7 +1901,7 @@ class BackendTests: XCTestCase {
             completion2Called = true
         }
 
-        expect(self.httpClient.calls.count).to(equal(1))
+        expect(self.httpClient.calls.count).toEventually(equal(1))
         expect(completion1Called).toEventually(beTrue())
         expect(completion2Called).toEventually(beTrue())
     }

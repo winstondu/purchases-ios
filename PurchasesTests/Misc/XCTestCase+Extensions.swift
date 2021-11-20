@@ -17,7 +17,7 @@ import XCTest
 
 extension XCTestCase {
 
-    func simulateNetworkDelay(withTimeInterval timeInterval: TimeInterval = 0.1) {
+    func simulateNetworkDelay(withTimeInterval timeInterval: TimeInterval = 0.2) {
         Thread.sleep(forTimeInterval: timeInterval)
     }
 
