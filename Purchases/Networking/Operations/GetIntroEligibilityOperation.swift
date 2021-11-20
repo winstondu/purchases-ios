@@ -80,7 +80,11 @@ class GetIntroEligibilityOperation: NetworkOperation {
         }
     }
 
-    private func handleIntroEligibility(response: IntroEligibilityResponse) {
+}
+
+private extension GetIntroEligibilityOperation {
+
+    func handleIntroEligibility(response: IntroEligibilityResponse) {
         var eligibilitiesByProductIdentifier = response.maybeResponse
         if response.statusCode >= HTTPStatusCodes.redirect.rawValue || response.error != nil {
             eligibilitiesByProductIdentifier = [:]

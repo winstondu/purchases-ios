@@ -17,8 +17,8 @@ class PostSubscriberAttributesOperation: NetworkOperation {
 
     let httpClient: HTTPClient
     let authHeaders: [String: String]
-    let subscriberAttributesMarshaller: SubscriberAttributesMarshaller
-    let subscriberAttributeHandler: SubscriberAttributeHandler
+    private let subscriberAttributesMarshaller: SubscriberAttributesMarshaller
+    private let subscriberAttributeHandler: SubscriberAttributeHandler
 
     init(httpClient: HTTPClient,
          authHeaders: [String: String],

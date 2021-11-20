@@ -50,14 +50,12 @@ class CreateAliasOperation: NetworkOperation {
                             maybeError: error,
                             completion: aliasCallback.callback)
             }
-
         }
-
     }
 
 }
 
-extension CreateAliasOperation {
+private extension CreateAliasOperation {
 
     func handle(response: [String: Any]?,
                 statusCode: Int,

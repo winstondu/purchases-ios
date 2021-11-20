@@ -42,10 +42,14 @@ class PostAttributionDataOperation: NetworkOperation {
         }
     }
 
-    private func handle(response: [String: Any]?,
-                        statusCode: Int,
-                        maybeError: Error?,
-                        completion: PostRequestResponseHandler?) {
+}
+
+private extension PostAttributionDataOperation {
+
+    func handle(response: [String: Any]?,
+                statusCode: Int,
+                maybeError: Error?,
+                completion: PostRequestResponseHandler?) {
         if let error = maybeError {
             completion?(ErrorUtils.networkError(withUnderlyingError: error))
             return

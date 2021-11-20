@@ -15,10 +15,10 @@ import Foundation
 
 class GetSubscriberDataOperation: NetworkOperation {
 
-    private let customerInfoCallbackCache: CallbackCache<CustomerInfoCallback>
     let httpClient: HTTPClient
     let authHeaders: [String: String]
-    let customerInfoResponseHandler: CustomerInfoResponseHandler
+    private let customerInfoResponseHandler: CustomerInfoResponseHandler
+    private let customerInfoCallbackCache: CallbackCache<CustomerInfoCallback>
 
     init(httpClient: HTTPClient,
          authHeaders: [String: String],

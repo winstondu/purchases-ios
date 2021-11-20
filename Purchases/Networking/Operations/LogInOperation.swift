@@ -49,10 +49,14 @@ class LogInOperation: NetworkOperation {
         }
     }
 
-    private func handleLogin(maybeResponse: [String: Any]?,
-                             statusCode: Int,
-                             maybeError: Error?,
-                             completion: LogInResponseHandler) {
+}
+
+private extension LogInOperation {
+
+    func handleLogin(maybeResponse: [String: Any]?,
+                     statusCode: Int,
+                     maybeError: Error?,
+                     completion: LogInResponseHandler) {
         if let error = maybeError {
             completion(nil, false, ErrorUtils.networkError(withUnderlyingError: error))
             return

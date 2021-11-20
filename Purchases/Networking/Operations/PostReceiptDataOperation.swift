@@ -15,11 +15,11 @@ import Foundation
 
 class PostReceiptDataOperation: NetworkOperation {
 
-    private let customerInfoCallbackCache: CallbackCache<CustomerInfoCallback>
     let httpClient: HTTPClient
     let authHeaders: [String: String]
-    let subscriberAttributesMarshaller: SubscriberAttributesMarshaller
-    let customerInfoResponseHandler: CustomerInfoResponseHandler
+    private let subscriberAttributesMarshaller: SubscriberAttributesMarshaller
+    private let customerInfoResponseHandler: CustomerInfoResponseHandler
+    private let customerInfoCallbackCache: CallbackCache<CustomerInfoCallback>
 
     init(httpClient: HTTPClient,
          authHeaders: [String: String],
@@ -87,4 +87,5 @@ class PostReceiptDataOperation: NetworkOperation {
             }
         }
     }
+
 }
