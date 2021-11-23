@@ -99,6 +99,9 @@ public typealias DeferredPromotionalPurchaseBlock = (@escaping PurchaseCompleted
 
     /**
      * Used to set the log level. Useful for debugging issues with the lovely team @RevenueCat
+     *
+     * - Seealso ``logHandler``
+     * - Seealso ``verboseLogHandler``
      */
     @objc public static var logLevel: LogLevel {
         get { Logger.logLevel }
@@ -143,10 +146,52 @@ public typealias DeferredPromotionalPurchaseBlock = (@escaping PurchaseCompleted
      * Set a custom log handler for redirecting logs to your own logging system.
      * By default, this sends Info, Warn, and Error messages. If you wish to receive Debug level messages,
      * you must enable debug logs.
+     *
+     * - Note:``verboseLogHandler`` provides additional information.
+     *
+     * - Seealso: ``verboseLogHandler``
+     * - Seealso: ``logLevel``
      */
-    @objc public static var logHandler: (LogLevel, String) -> Void {
+    @objc public static var logHandler: LogHandler {
+        get {
+            return { level, message in
+                self.verboseLogHandler(level, message, nil, nil, 0)
+            }
+        }
+
+        set {
+            self.verboseLogHandler = { level, message, _, _, _ in
+                newValue(level, message)
+            }
+        }
+    }
+
+    /**
+     * Set a custom log handler for redirecting logs to your own logging system.
+     * By default, this sends Info, Warn, and Error messages. If you wish to receive Debug level messages,
+     * you must enable debug logs.
+     *
+     * - Note: you can use ``logHandler`` if you don't need filename information.
+     *
+     * - Seealso: ``logHandler``
+     * - Seealso: ``logLevel``
+     */
+    @objc public static var verboseLogHandler: VerboseLogHandler {
         get { Logger.logHandler }
         set { Logger.logHandler = newValue }
+    }
+
+    /**
+     * Setting this to `true` adds additional information to the default log handler:
+     *  Filename, line, and method data.
+     * You can also access that information for your own logging system by using ``verboseLogHandler``.
+     *
+     * - Seealso: ``verboseLogHandler``
+     * - Seealso: ``logLevel``
+     */
+    @objc public static var verboseLogs: Bool {
+        get { return Logger.verbose }
+        set { Logger.verbose = newValue }
     }
 
     /// Current version of the Purchases framework.
@@ -300,9 +345,9 @@ public typealias DeferredPromotionalPurchaseBlock = (@escaping PurchaseCompleted
          offeringsManager: OfferingsManager,
          purchasesOrchestrator: PurchasesOrchestrator) {
 
-        Logger.debug(Strings.configure.debug_enabled)
-        Logger.debug(Strings.configure.sdk_version(sdkVersion: Self.frameworkVersion))
-        Logger.user(Strings.configure.initial_app_user_id(appUserID: appUserID))
+        Logger.debug(Strings.configure.debug_enabled, fileName: nil)
+        Logger.debug(Strings.configure.sdk_version(sdkVersion: Self.frameworkVersion), fileName: nil)
+        Logger.user(Strings.configure.initial_app_user_id(appUserID: appUserID), fileName: nil)
 
         self.requestFetcher = requestFetcher
         self.receiptFetcher = receiptFetcher
