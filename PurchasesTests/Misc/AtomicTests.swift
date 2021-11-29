@@ -17,14 +17,14 @@ import XCTest
 @testable import RevenueCat
 
 class AtomicTests: XCTestCase {
-    func testInitialValue() {
+    func testInitSetsValueCorrectly() {
         let value = Int.random(in: 0..<100)
         let atomic = Atomic(value)
 
         expect(atomic.value) == value
     }
 
-    func testModify() {
+    func testModifyUpdatesTheValue() {
         let atomic = Atomic(10)
         atomic.modify { $0 += 10 }
 
@@ -38,7 +38,7 @@ class AtomicTests: XCTestCase {
         expect(result) == false
     }
 
-    func testWithValue() {
+    func testWithValueUsesTheCorrectValueWithinTheBlock() {
         let atomic = Atomic(10)
         let result: Int = atomic.withValue { $0 + 10 }
 
