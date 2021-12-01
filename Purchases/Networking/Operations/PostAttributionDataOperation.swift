@@ -17,18 +17,23 @@ class PostAttributionDataOperation: NetworkOperation {
 
     let httpClient: HTTPClient
     let authHeaders: [String: String]
+    let postAttributionDataResponseHandler: PostAttributionDataResponseHandler
 
-    init(httpClient: HTTPClient, authHeaders: [String: String]) {
+    init(httpClient: HTTPClient,
+         authHeaders: [String: String],
+         // swiftlint:disable:next line_length
+         postAttributionDataResponseHandler: PostAttributionDataResponseHandler = PostAttributionDataResponseHandler()) {
         self.httpClient = httpClient
         self.authHeaders = authHeaders
+        self.postAttributionDataResponseHandler = postAttributionDataResponseHandler
     }
 
     func post(attributionData: [String: Any],
               network: AttributionNetwork,
               appUserID: String,
-              completion: PostRequestResponseHandler?) {
+              maybeCompletion: PostRequestResponseHandler?) {
         guard let appUserID = try? appUserID.escapedOrError() else {
-            completion?(ErrorUtils.missingAppUserIDError())
+            maybeCompletion?(ErrorUtils.missingAppUserIDError())
             return
         }
 
@@ -38,32 +43,15 @@ class PostAttributionDataOperation: NetworkOperation {
                                            path: path,
                                            requestBody: body,
                                            headers: self.authHeaders) { statusCode, response, error in
-            self.handle(response: response, statusCode: statusCode, maybeError: error, completion: completion)
+            guard let completion = maybeCompletion else {
+                return
+            }
+
+            self.postAttributionDataResponseHandler.handle(maybeResponse: response,
+                                                           statusCode: statusCode,
+                                                           maybeError: error,
+                                                           completion: completion)
         }
-    }
-
-}
-
-private extension PostAttributionDataOperation {
-
-    func handle(response: [String: Any]?,
-                statusCode: Int,
-                maybeError: Error?,
-                completion: PostRequestResponseHandler?) {
-        if let error = maybeError {
-            completion?(ErrorUtils.networkError(withUnderlyingError: error))
-            return
-        }
-
-        guard statusCode <= HTTPStatusCodes.redirect.rawValue else {
-            let backendErrorCode = BackendErrorCode(maybeCode: response?["code"])
-            let message = response?["message"] as? String
-            let responseError = ErrorUtils.backendError(withBackendCode: backendErrorCode, backendMessage: message)
-            completion?(responseError)
-            return
-        }
-
-        completion?(nil)
     }
 
 }

@@ -15,8 +15,8 @@ import Foundation
 
 class SubscriberAttributesMarshaller {
 
-    func subscriberAttributesToDict(subscriberAttributes: SubscriberAttributeDict) -> [String: Any] {
-        var attributesByKey: [String: Any] = [:]
+    func subscriberAttributesToDict(subscriberAttributes: SubscriberAttributeDict) -> [String: [String: Any]] {
+        var attributesByKey: [String: [String: Any]] = [:]
         for (key, value) in subscriberAttributes {
             attributesByKey[key] = value.asBackendDictionary()
         }

@@ -53,9 +53,9 @@ class PostSubscriberAttributesOperation: NetworkOperation {
                                       requestBody: ["attributes": attributesInBackendFormat],
                                       headers: authHeaders) { statusCode, response, error in
             self.subscriberAttributeHandler.handleSubscriberAttributesResult(statusCode: statusCode,
-                                                                             response: response,
+                                                                             maybeResponse: response,
                                                                              maybeError: error,
-                                                                             completion: completion)
+                                                                             maybeCompletion: completion)
         }
     }
 

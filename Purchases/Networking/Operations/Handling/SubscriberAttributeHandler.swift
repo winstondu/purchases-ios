@@ -22,10 +22,10 @@ class SubscriberAttributeHandler {
     }
 
     func handleSubscriberAttributesResult(statusCode: Int,
-                                          response: [String: Any]?,
+                                          maybeResponse: [String: Any]?,
                                           maybeError: Error?,
-                                          completion: PostRequestResponseHandler?) {
-        guard let completion = completion else {
+                                          maybeCompletion: PostRequestResponseHandler?) {
+        guard let completion = maybeCompletion else {
             return
         }
 
@@ -36,7 +36,7 @@ class SubscriberAttributeHandler {
 
         let responseError: Error?
 
-        if let response = response, statusCode > HTTPStatusCodes.redirect.rawValue {
+        if let response = maybeResponse, statusCode > HTTPStatusCodes.redirect.rawValue {
             let extraUserInfo = self.userInfoAttributeParser
                 .attributesUserInfoFromResponse(response: response, statusCode: statusCode)
             let backendErrorCode = BackendErrorCode(maybeCode: response["code"])

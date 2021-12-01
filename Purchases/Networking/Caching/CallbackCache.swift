@@ -15,7 +15,7 @@ import Foundation
 
 class CallbackCache<T> where T: CachableCallback {
 
-    var cache: [String: [T]] = [:]
+    var cachedCallbacksByKey: [String: [T]] = [:]
     let callbackQueue: DispatchQueue
 
     init(callbackQueue: DispatchQueue) {
@@ -24,25 +24,25 @@ class CallbackCache<T> where T: CachableCallback {
 
     func add(callback: T) -> CallbackCacheStatus {
         callbackQueue.sync {
-            var values = cache[callback.key] ?? []
+            var values = cachedCallbacksByKey[callback.key] ?? []
             let cacheStatus: CallbackCacheStatus = !values.isEmpty ?
                 .addedToExistingInFlightList :
                 .firstCallbackAddedToList
 
             values.append(callback)
-            cache[callback.key] = values
+            cachedCallbacksByKey[callback.key] = values
             return cacheStatus
         }
     }
 
     func performOnAllItemsAndRemoveFromCache(withKey key: String, _ block: (T) -> Void) {
         callbackQueue.sync {
-            guard let items = cache[key] else {
+            guard let items = cachedCallbacksByKey[key] else {
                 return
             }
 
             items.forEach { block($0) }
-            cache.removeValue(forKey: key)
+            cachedCallbacksByKey.removeValue(forKey: key)
         }
     }
 

@@ -39,7 +39,7 @@ class SubscribersAPI {
                                              authHeaders: self.authHeaders,
                                              aliasCallbackCache: self.aliasCallbackCache)
         operationQueue.addOperation {
-            operation.createAlias(appUserID: appUserID, newAppUserID: newAppUserID, completion: completion)
+            operation.createAlias(appUserID: appUserID, newAppUserID: newAppUserID, maybeCompletion: completion)
         }
     }
 

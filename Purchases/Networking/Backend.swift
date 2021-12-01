@@ -126,7 +126,7 @@ class Backend {
             postAttributionDataOperation.post(attributionData: attributionData,
                                               network: network,
                                               appUserID: appUserID,
-                                              completion: completion)
+                                              maybeCompletion: completion)
         }
     }
 

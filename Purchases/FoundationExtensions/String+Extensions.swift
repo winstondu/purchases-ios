@@ -27,16 +27,16 @@ extension String {
     }
 
     func escapedOrError() throws -> String {
-        let trimmedAndEscapedAppUserID = self
+        let trimmedAndEscaped = self
             .trimmingCharacters(in: .whitespacesAndNewlines)
             .addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
 
-        guard trimmedAndEscapedAppUserID.count > 0 else {
+        guard trimmedAndEscaped.count > 0 else {
             Logger.warn("Attempting to escape an empty string")
             throw StringError.escapingEmptyString
         }
 
-        return trimmedAndEscapedAppUserID
+        return trimmedAndEscaped
     }
 
     /// Returns `nil` if `self` is an empty string.
