@@ -25,7 +25,7 @@ class CustomerInfoResponseHandler {
     func handle(customerInfoResponse maybeResponse: [String: Any]?,
                 statusCode: Int,
                 maybeError: Error?,
-                file: String = #file,
+                file: String = #fileID,
                 function: String = #function,
                 completion: BackendCustomerInfoResponseHandler) {
         if let error = maybeError {
