@@ -17,7 +17,7 @@ import StoreKit
 
 class ProductsManager: NSObject {
 
-    let productsFetcherSK1: ProductsFetcherSK1
+    private let productsFetcherSK1: ProductsFetcherSK1
 
     private let systemInfo: SystemInfo
 

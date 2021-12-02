@@ -60,6 +60,12 @@
             reference = "container:RevenueCat.xcodeproj/RevenueCat.xctestplan"
             default = "YES">
          </TestPlanReference>
+         <TestPlanReference
+            reference = "container:Coverage.xctestplan">
+         </TestPlanReference>
+         <TestPlanReference
+            reference = "container:UnitTests.xctestplan">
+         </TestPlanReference>
       </TestPlans>
       <Testables>
          <TestableReference
