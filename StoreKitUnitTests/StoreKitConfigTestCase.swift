@@ -33,7 +33,7 @@ class StoreKitConfigTestCase: XCTestCase {
         testSession.disableDialogs = true
         testSession.clearTransactions()
 
-        self.waitForStoreKitTestIfNeeded()
+//        self.waitForStoreKitTestIfNeeded()
 
         let suiteName = "StoreKitConfigTests"
         userDefaults = UserDefaults(suiteName: suiteName)
