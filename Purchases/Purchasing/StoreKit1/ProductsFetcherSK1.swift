@@ -65,7 +65,7 @@ class ProductsFetcherSK1: NSObject {
     @discardableResult
     private func startRequest(
         forIdentifiers identifiers: Set<String>,
-        retriesLeft: Int = 1
+        retriesLeft: Int = 0 // TODO: extract retries constant
     ) -> SKProductsRequest {
         let request = self.productsRequestFactory.request(productIdentifiers: identifiers)
         request.delegate = self
