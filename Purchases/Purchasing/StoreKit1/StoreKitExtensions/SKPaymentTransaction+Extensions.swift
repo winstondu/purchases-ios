@@ -16,7 +16,7 @@ import StoreKit
 extension SKPaymentTransaction {
 
     /// Considering issue https://github.com/RevenueCat/purchases-ios/issues/279, sometimes `payment`
-    /// and `productIdentifier` can be `nil`, in this case, they must be have treated as nullable.
+    /// and `productIdentifier` can be `nil`, in this case, they must be treated as nullable.
     /// Due of that an optional reference is created so that the compiler would allow us to check for nullability.
     var productIdentifier: String? {
         guard let maybePayment = payment as SKPayment? else {
