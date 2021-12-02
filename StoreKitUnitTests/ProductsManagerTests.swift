@@ -45,7 +45,7 @@ class ProductsManagerTests: StoreKitConfigTestCase {
             maybeReceivedProducts = products
         })
 
-        expect(completionCalled).toEventually(beTrue())
+        expect(completionCalled).toEventually(beTrue(), timeout: .seconds(30))
         let receivedProducts = try XCTUnwrap(maybeReceivedProducts)
         expect(receivedProducts.count) == 1
 
