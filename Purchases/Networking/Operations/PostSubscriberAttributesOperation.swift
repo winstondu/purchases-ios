@@ -15,8 +15,6 @@ import Foundation
 
 class PostSubscriberAttributesOperation: NetworkOperation {
 
-    let httpClient: HTTPClient
-    let authHeaders: [String: String]
     private let subscriberAttributesMarshaller: SubscriberAttributesMarshaller
     private let subscriberAttributeHandler: SubscriberAttributeHandler
 
@@ -24,10 +22,10 @@ class PostSubscriberAttributesOperation: NetworkOperation {
          authHeaders: [String: String],
          subscriberAttributesMarshaller: SubscriberAttributesMarshaller = SubscriberAttributesMarshaller(),
          subscriberAttributeHandler: SubscriberAttributeHandler = SubscriberAttributeHandler()) {
-        self.httpClient = httpClient
-        self.authHeaders = authHeaders
         self.subscriberAttributesMarshaller = subscriberAttributesMarshaller
         self.subscriberAttributeHandler = subscriberAttributeHandler
+
+        super.init(httpClient: httpClient, authHeaders: authHeaders)
     }
 
     func post(subscriberAttributes: SubscriberAttributeDict,

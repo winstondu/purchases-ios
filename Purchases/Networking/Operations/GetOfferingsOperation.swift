@@ -15,16 +15,14 @@ import Foundation
 
 class GetOfferingsOperation: NetworkOperation {
 
-    let httpClient: HTTPClient
-    let authHeaders: [String: String]
     private let offeringsCallbackCache: CallbackCache<OfferingsCallback>
 
     init(httpClient: HTTPClient,
          authHeaders: [String: String],
          offeringsCallbackCache: CallbackCache<OfferingsCallback>) {
-        self.httpClient = httpClient
-        self.authHeaders = authHeaders
         self.offeringsCallbackCache = offeringsCallbackCache
+
+        super.init(httpClient: httpClient, authHeaders: authHeaders)
     }
 
     func getOfferings(appUserID: String, completion: @escaping OfferingsResponseHandler) {

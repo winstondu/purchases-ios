@@ -17,17 +17,15 @@ class CreateAliasOperation: NetworkOperation {
 
     let aliasCallbackCache: CallbackCache<AliasCallback>
     let createAliasResponseHandler: PostAttributionDataResponseHandler
-    let httpClient: HTTPClient
-    let authHeaders: [String: String]
 
     init(httpClient: HTTPClient,
          authHeaders: [String: String],
          createAliasResponseHandler: PostAttributionDataResponseHandler = PostAttributionDataResponseHandler(),
          aliasCallbackCache: CallbackCache<AliasCallback>) {
-        self.httpClient = httpClient
-        self.authHeaders = authHeaders
         self.createAliasResponseHandler = createAliasResponseHandler
         self.aliasCallbackCache = aliasCallbackCache
+
+        super.init(httpClient: httpClient, authHeaders: authHeaders)
     }
 
     func createAlias(appUserID: String, newAppUserID: String, maybeCompletion: PostRequestResponseHandler?) {

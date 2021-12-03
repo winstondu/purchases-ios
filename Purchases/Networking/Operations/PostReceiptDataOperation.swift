@@ -15,8 +15,6 @@ import Foundation
 
 class PostReceiptDataOperation: NetworkOperation {
 
-    let httpClient: HTTPClient
-    let authHeaders: [String: String]
     private let subscriberAttributesMarshaller: SubscriberAttributesMarshaller
     private let customerInfoResponseHandler: CustomerInfoResponseHandler
     private let customerInfoCallbackCache: CallbackCache<CustomerInfoCallback>
@@ -26,11 +24,11 @@ class PostReceiptDataOperation: NetworkOperation {
          subscriberAttributesMarshaller: SubscriberAttributesMarshaller = SubscriberAttributesMarshaller(),
          customerInfoResponseHandler: CustomerInfoResponseHandler = CustomerInfoResponseHandler(),
          customerInfoCallbackCache: CallbackCache<CustomerInfoCallback>) {
-        self.httpClient = httpClient
-        self.authHeaders = authHeaders
         self.subscriberAttributesMarshaller = subscriberAttributesMarshaller
         self.customerInfoResponseHandler = customerInfoResponseHandler
         self.customerInfoCallbackCache = customerInfoCallbackCache
+
+        super.init(httpClient: httpClient, authHeaders: authHeaders)
     }
 
     // swiftlint:disable:next function_parameter_count

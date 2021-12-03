@@ -13,9 +13,16 @@
 
 import Foundation
 
-protocol NetworkOperation {
+class NetworkOperation: Operation {
 
-    var httpClient: HTTPClient { get }
-    var authHeaders: [String: String] { get }
+    let httpClient: HTTPClient
+    let authHeaders: [String: String]
+
+    init(httpClient: HTTPClient, authHeaders: [String: String]) {
+        self.httpClient = httpClient
+        self.authHeaders = authHeaders
+
+        super.init()
+    }
 
 }

@@ -15,14 +15,12 @@ import Foundation
 
 class LogInOperation: NetworkOperation {
 
-    let httpClient: HTTPClient
-    let authHeaders: [String: String]
     private let loginCallbackCache: CallbackCache<LogInCallback>
 
     init(httpClient: HTTPClient, authHeaders: [String: String], loginCallbackCache: CallbackCache<LogInCallback>) {
-        self.httpClient = httpClient
-        self.authHeaders = authHeaders
         self.loginCallbackCache = loginCallbackCache
+
+        super.init(httpClient: httpClient, authHeaders: authHeaders)
     }
 
     func logIn(currentAppUserID: String,

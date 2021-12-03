@@ -15,14 +15,6 @@ import Foundation
 
 class PostOfferForSigningOperation: NetworkOperation {
 
-    let httpClient: HTTPClient
-    let authHeaders: [String: String]
-
-    init(httpClient: HTTPClient, authHeaders: [String: String]) {
-        self.httpClient = httpClient
-        self.authHeaders = authHeaders
-    }
-
     // swiftlint:disable:next function_parameter_count function_body_length
     func post(offerIdForSigning offerIdentifier: String,
               productIdentifier: String,

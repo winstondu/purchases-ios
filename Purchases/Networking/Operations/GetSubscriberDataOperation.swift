@@ -15,8 +15,6 @@ import Foundation
 
 class GetSubscriberDataOperation: NetworkOperation {
 
-    let httpClient: HTTPClient
-    let authHeaders: [String: String]
     private let customerInfoResponseHandler: CustomerInfoResponseHandler
     private let customerInfoCallbackCache: CallbackCache<CustomerInfoCallback>
 
@@ -24,10 +22,10 @@ class GetSubscriberDataOperation: NetworkOperation {
          authHeaders: [String: String],
          customerInfoResponseHandler: CustomerInfoResponseHandler = CustomerInfoResponseHandler(),
          customerInfoCallbackCache: CallbackCache<CustomerInfoCallback>) {
-        self.httpClient = httpClient
-        self.authHeaders = authHeaders
         self.customerInfoResponseHandler = customerInfoResponseHandler
         self.customerInfoCallbackCache = customerInfoCallbackCache
+
+        super.init(httpClient: httpClient, authHeaders: authHeaders)
     }
 
     func getSubscriberData(appUserID: String, completion: @escaping BackendCustomerInfoResponseHandler) {

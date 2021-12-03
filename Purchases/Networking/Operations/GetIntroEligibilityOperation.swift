@@ -15,14 +15,6 @@ import Foundation
 
 class GetIntroEligibilityOperation: NetworkOperation {
 
-    let httpClient: HTTPClient
-    let authHeaders: [String: String]
-
-    init(httpClient: HTTPClient, authHeaders: [String: String]) {
-        self.httpClient = httpClient
-        self.authHeaders = authHeaders
-    }
-
     func getIntroEligibility(appUserID: String,
                              receiptData: Data,
                              productIdentifiers: [String],
