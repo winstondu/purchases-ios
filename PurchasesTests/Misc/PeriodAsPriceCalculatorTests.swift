@@ -24,8 +24,10 @@ class PeriodAsPriceCalculatorTests: XCTestCase {
 
         let monthlyPeriod = SubscriptionPeriod(value: 1, unit: .month)
 
-        let resultPrice = PriceAsPeriodCalculator().price(for: yearlyPeriod, as: monthlyPeriod, subscriptionPrice: yearlyPrice)
-        expect(resultPrice) == 10
+        let resultPrice = PriceAsPeriodCalculator().price(for: yearlyPeriod,
+                                                             as: monthlyPeriod,
+                                                             subscriptionPrice: yearlyPrice)
+        expect(resultPrice) == Decimal(10)
     }
 
     func testMonthlyPriceAsYearlyCalculatedCorrectly() {
@@ -34,18 +36,22 @@ class PeriodAsPriceCalculatorTests: XCTestCase {
 
         let monthlyPeriod = SubscriptionPeriod(value: 1, unit: .month)
 
-        let resultPrice = PriceAsPeriodCalculator().price(for: monthlyPeriod, as: yearlyPeriod, subscriptionPrice: monthlyPrice)
-        expect(resultPrice) == 120
+        let resultPrice = PriceAsPeriodCalculator().price(for: monthlyPeriod,
+                                                             as: yearlyPeriod,
+                                                             subscriptionPrice: monthlyPrice)
+        expect(resultPrice) == Decimal(120)
     }
 
     func testYearlyPriceAsWeeklyCalculatedCorrectly() {
         let yearlyPrice: Decimal = 120
         let yearlyPeriod = SubscriptionPeriod(value: 1, unit: .year)
 
-        let monthlyPeriod = SubscriptionPeriod(value: 1, unit: .week)
+        let weeklyPeriod = SubscriptionPeriod(value: 1, unit: .week)
 
-        let resultPrice = PriceAsPeriodCalculator().price(for: yearlyPeriod, as: monthlyPeriod, subscriptionPrice: yearlyPrice)
-        expect(resultPrice) == 2.3
+        let resultPrice = PriceAsPeriodCalculator().price(for: yearlyPeriod,
+                                                             as: weeklyPeriod,
+                                                             subscriptionPrice: yearlyPrice)
+        expect(resultPrice) == Decimal(2.3)
     }
 
 
@@ -53,10 +59,53 @@ class PeriodAsPriceCalculatorTests: XCTestCase {
         let yearlyPrice: Decimal = 100
         let yearlyPeriod = SubscriptionPeriod(value: 1, unit: .year)
 
-        let monthlyPeriod = SubscriptionPeriod(value: 2, unit: .week)
+        let biWeeklyPeriod = SubscriptionPeriod(value: 2, unit: .week)
 
-        let resultPrice = PriceAsPeriodCalculator().price(for: yearlyPeriod, as: monthlyPeriod, subscriptionPrice: yearlyPrice)
-        expect(resultPrice) == 3.84
+        let resultPrice = PriceAsPeriodCalculator().price(for: yearlyPeriod,
+                                                             as: biWeeklyPeriod,
+                                                             subscriptionPrice: yearlyPrice)
+        expect(resultPrice) == Decimal(3.84)
     }
 
+    func testWeeklyPriceAsOthersCalculatedCorrectly() {
+        let weeklyPrice: Decimal = 7.99
+        let weeklyPeriod = SubscriptionPeriod(value: 1, unit: .week)
+
+        var targetPeriod = SubscriptionPeriod(value: 1, unit: .day)
+
+        var resultPrice = PriceAsPeriodCalculator().price(for: weeklyPeriod,
+                                                             as: targetPeriod,
+                                                             subscriptionPrice: weeklyPrice)
+        expect(resultPrice) == Decimal(1.14)
+
+        targetPeriod = SubscriptionPeriod(value: 1, unit: .week)
+
+        resultPrice = PriceAsPeriodCalculator().price(for: weeklyPeriod,
+                                                             as: targetPeriod,
+                                                             subscriptionPrice: weeklyPrice)
+        expect(resultPrice) == Decimal(7.99)
+
+        targetPeriod = SubscriptionPeriod(value: 1, unit: .month)
+
+        resultPrice = PriceAsPeriodCalculator().price(for: weeklyPeriod,
+                                                             as: targetPeriod,
+                                                             subscriptionPrice: weeklyPrice)
+        expect(resultPrice) == Decimal(31.96)
+
+        targetPeriod = SubscriptionPeriod(value: 3, unit: .month)
+
+        resultPrice = PriceAsPeriodCalculator().price(for: weeklyPeriod,
+                                                             as: targetPeriod,
+                                                             subscriptionPrice: weeklyPrice)
+        expect(resultPrice) == Decimal(95.88)
+
+        targetPeriod = SubscriptionPeriod(value: 1, unit: .year)
+
+        resultPrice = PriceAsPeriodCalculator().price(for: weeklyPeriod,
+                                                             as: targetPeriod,
+                                                             subscriptionPrice: weeklyPrice)
+        expect(resultPrice) == Decimal(415.48)
+
+
+    }
 }
