@@ -67,9 +67,10 @@ struct PriceAsPeriodCalculator {
                                               raiseOnUnderflow: false,
                                               raiseOnDivideByZero: false)
 
-        let toPrice = (subscriptionPrice as NSDecimalNumber).dividing(by: NSDecimalNumber(decimal: dividingFactor),
-                                                                      withBehavior: behavior)
-        return toPrice as Decimal
+        var toPrice = (subscriptionPrice as NSDecimalNumber).dividing(by: NSDecimalNumber(decimal: dividingFactor),
+                                                                      withBehavior: behavior) as Decimal
+        toPrice = toPrice * Decimal(toSubscriptionPeriod.value) / Decimal(fromSubscriptionPeriod.value)
+        return toPrice
     }
 
 }

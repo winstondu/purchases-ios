@@ -38,14 +38,25 @@ class PeriodAsPriceCalculatorTests: XCTestCase {
         expect(resultPrice) == 120
     }
 
-//    func testYearlyPriceAsMonthlyCalculatedCorrectly() {
-//        let yearlyPrice: Decimal = 120
-//        let yearlyPeriod = SubscriptionPeriod(value: 1, unit: .year)
-//
-//        let monthlyPeriod = SubscriptionPeriod(value: 1, unit: .month)
-//
-//        let resultPrice = PriceAsPeriodCalculator().price(for: yearlyPeriod, as: monthlyPeriod, subscriptionPrice: yearlyPrice)
-//        expect(resultPrice) == 10
-//    }
+    func testYearlyPriceAsWeeklyCalculatedCorrectly() {
+        let yearlyPrice: Decimal = 120
+        let yearlyPeriod = SubscriptionPeriod(value: 1, unit: .year)
+
+        let monthlyPeriod = SubscriptionPeriod(value: 1, unit: .week)
+
+        let resultPrice = PriceAsPeriodCalculator().price(for: yearlyPeriod, as: monthlyPeriod, subscriptionPrice: yearlyPrice)
+        expect(resultPrice) == 2.3
+    }
+
+
+    func testYearlyPriceAsBiWeeklyCalculatedCorrectly() {
+        let yearlyPrice: Decimal = 100
+        let yearlyPeriod = SubscriptionPeriod(value: 1, unit: .year)
+
+        let monthlyPeriod = SubscriptionPeriod(value: 2, unit: .week)
+
+        let resultPrice = PriceAsPeriodCalculator().price(for: yearlyPeriod, as: monthlyPeriod, subscriptionPrice: yearlyPrice)
+        expect(resultPrice) == 3.84
+    }
 
 }
