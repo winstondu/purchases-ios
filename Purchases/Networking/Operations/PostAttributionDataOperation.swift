@@ -15,14 +15,36 @@ import Foundation
 
 class PostAttributionDataOperation: NetworkOperation {
 
+    let configuration: UserSpecificConfiguration
     let postAttributionDataResponseHandler: PostAttributionDataResponseHandler
+    let attributionData: [String: Any]
+    let network: AttributionNetwork
+    let maybeCompletion: PostRequestResponseHandler?
 
-    init(configuration: Configuration,
+    init(configuration: UserSpecificConfiguration,
+         attributionData: [String: Any],
+         network: AttributionNetwork,
+         maybeCompletion: PostRequestResponseHandler?,
          // swiftlint:disable:next line_length
          postAttributionDataResponseHandler: PostAttributionDataResponseHandler = PostAttributionDataResponseHandler()) {
         self.postAttributionDataResponseHandler = postAttributionDataResponseHandler
+        self.attributionData = attributionData
+        self.network = network
+        self.configuration = configuration
+        self.maybeCompletion = maybeCompletion
 
         super.init(configuration: configuration)
+    }
+
+    override func main() {
+        if self.isCancelled {
+            return
+        }
+
+        self.post(attributionData: self.attributionData,
+                  network: self.network,
+                  appUserID: self.configuration.appUserID,
+                  maybeCompletion: self.maybeCompletion)
     }
 
     func post(attributionData: [String: Any],
