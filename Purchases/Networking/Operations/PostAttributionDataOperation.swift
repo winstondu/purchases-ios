@@ -17,13 +17,12 @@ class PostAttributionDataOperation: NetworkOperation {
 
     let postAttributionDataResponseHandler: PostAttributionDataResponseHandler
 
-    init(httpClient: HTTPClient,
-         authHeaders: [String: String],
+    init(configuration: Configuration,
          // swiftlint:disable:next line_length
          postAttributionDataResponseHandler: PostAttributionDataResponseHandler = PostAttributionDataResponseHandler()) {
         self.postAttributionDataResponseHandler = postAttributionDataResponseHandler
 
-        super.init(httpClient: httpClient, authHeaders: authHeaders)
+        super.init(configuration: configuration)
     }
 
     func post(attributionData: [String: Any],

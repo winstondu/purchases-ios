@@ -107,8 +107,8 @@ class Backend {
               receiptData: Data,
               appUserID: String,
               completion: @escaping OfferSigningResponseHandler) {
-        let postOfferForSigningOperation = PostOfferForSigningOperation(httpClient: self.httpClient,
-                                                                        authHeaders: self.authHeaders)
+        let config = NetworkOperation.Configuration(httpClient: self.httpClient, authHeaders: self.authHeaders)
+        let postOfferForSigningOperation = PostOfferForSigningOperation(configuration: config)
         self.operationQueue.addOperation {
             postOfferForSigningOperation.post(offerIdForSigning: offerIdentifier,
                                               productIdentifier: productIdentifier,
@@ -123,8 +123,8 @@ class Backend {
               network: AttributionNetwork,
               appUserID: String,
               completion: PostRequestResponseHandler?) {
-        let postAttributionDataOperation = PostAttributionDataOperation(httpClient: self.httpClient,
-                                                                        authHeaders: self.authHeaders)
+        let config = NetworkOperation.Configuration(httpClient: self.httpClient, authHeaders: self.authHeaders)
+        let postAttributionDataOperation = PostAttributionDataOperation(configuration: config)
         self.operationQueue.addOperation {
             postAttributionDataOperation.post(attributionData: attributionData,
                                               network: network,
@@ -136,8 +136,8 @@ class Backend {
     func logIn(currentAppUserID: String,
                newAppUserID: String,
                completion: @escaping LogInResponseHandler) {
-        let loginOperation = LogInOperation(httpClient: self.httpClient,
-                                            authHeaders: self.authHeaders,
+        let config = NetworkOperation.Configuration(httpClient: self.httpClient, authHeaders: self.authHeaders)
+        let loginOperation = LogInOperation(configuration: config,
                                             loginCallbackCache: self.logInCallbacksCache)
         self.operationQueue.addOperation {
             loginOperation.logIn(currentAppUserID: currentAppUserID, newAppUserID: newAppUserID, completion: completion)
@@ -146,8 +146,8 @@ class Backend {
     }
 
     func getOfferings(appUserID: String, completion: @escaping OfferingsResponseHandler) {
-        let getOfferingsOperation = GetOfferingsOperation(httpClient: self.httpClient,
-                                                          authHeaders: self.authHeaders,
+        let config = NetworkOperation.Configuration(httpClient: self.httpClient, authHeaders: self.authHeaders)
+        let getOfferingsOperation = GetOfferingsOperation(configuration: config,
                                                           offeringsCallbackCache: self.offeringsCallbacksCache)
         self.operationQueue.addOperation {
             getOfferingsOperation.getOfferings(appUserID: appUserID, completion: completion)
@@ -158,8 +158,8 @@ class Backend {
                              receiptData: Data,
                              productIdentifiers: [String],
                              completion: @escaping IntroEligibilityResponseHandler) {
-        let getIntroEligibilityOperation = GetIntroEligibilityOperation(httpClient: self.httpClient,
-                                                                        authHeaders: self.authHeaders)
+        let config = NetworkOperation.Configuration(httpClient: self.httpClient, authHeaders: self.authHeaders)
+        let getIntroEligibilityOperation = GetIntroEligibilityOperation(configuration: config)
         self.operationQueue.addOperation {
             getIntroEligibilityOperation.getIntroEligibility(appUserID: appUserID,
                                                              receiptData: receiptData,

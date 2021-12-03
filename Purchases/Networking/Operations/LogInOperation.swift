@@ -17,10 +17,10 @@ class LogInOperation: NetworkOperation {
 
     private let loginCallbackCache: CallbackCache<LogInCallback>
 
-    init(httpClient: HTTPClient, authHeaders: [String: String], loginCallbackCache: CallbackCache<LogInCallback>) {
+    init(configuration: Configuration, loginCallbackCache: CallbackCache<LogInCallback>) {
         self.loginCallbackCache = loginCallbackCache
 
-        super.init(httpClient: httpClient, authHeaders: authHeaders)
+        super.init(configuration: configuration)
     }
 
     func logIn(currentAppUserID: String,

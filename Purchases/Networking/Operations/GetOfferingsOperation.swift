@@ -17,12 +17,10 @@ class GetOfferingsOperation: NetworkOperation {
 
     private let offeringsCallbackCache: CallbackCache<OfferingsCallback>
 
-    init(httpClient: HTTPClient,
-         authHeaders: [String: String],
-         offeringsCallbackCache: CallbackCache<OfferingsCallback>) {
+    init(configuration: Configuration, offeringsCallbackCache: CallbackCache<OfferingsCallback>) {
         self.offeringsCallbackCache = offeringsCallbackCache
 
-        super.init(httpClient: httpClient, authHeaders: authHeaders)
+        super.init(configuration: configuration)
     }
 
     func getOfferings(appUserID: String, completion: @escaping OfferingsResponseHandler) {

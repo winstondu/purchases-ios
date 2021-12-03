@@ -18,14 +18,13 @@ class PostSubscriberAttributesOperation: NetworkOperation {
     private let subscriberAttributesMarshaller: SubscriberAttributesMarshaller
     private let subscriberAttributeHandler: SubscriberAttributeHandler
 
-    init(httpClient: HTTPClient,
-         authHeaders: [String: String],
+    init(configuration: Configuration,
          subscriberAttributesMarshaller: SubscriberAttributesMarshaller = SubscriberAttributesMarshaller(),
          subscriberAttributeHandler: SubscriberAttributeHandler = SubscriberAttributeHandler()) {
         self.subscriberAttributesMarshaller = subscriberAttributesMarshaller
         self.subscriberAttributeHandler = subscriberAttributeHandler
 
-        super.init(httpClient: httpClient, authHeaders: authHeaders)
+        super.init(configuration: configuration)
     }
 
     func post(subscriberAttributes: SubscriberAttributeDict,

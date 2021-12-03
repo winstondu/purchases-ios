@@ -18,11 +18,23 @@ class NetworkOperation: Operation {
     let httpClient: HTTPClient
     let authHeaders: [String: String]
 
-    init(httpClient: HTTPClient, authHeaders: [String: String]) {
-        self.httpClient = httpClient
-        self.authHeaders = authHeaders
+    init(configuration: Configuration) {
+        self.httpClient = configuration.httpClient
+        self.authHeaders = configuration.authHeaders
 
         super.init()
+    }
+
+    class Configuration {
+
+        let httpClient: HTTPClient
+        let authHeaders: [String: String]
+
+        init(httpClient: HTTPClient, authHeaders: [String: String]) {
+            self.httpClient = httpClient
+            self.authHeaders = authHeaders
+        }
+
     }
 
 }

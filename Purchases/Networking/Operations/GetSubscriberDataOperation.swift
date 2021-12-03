@@ -18,14 +18,13 @@ class GetSubscriberDataOperation: NetworkOperation {
     private let customerInfoResponseHandler: CustomerInfoResponseHandler
     private let customerInfoCallbackCache: CallbackCache<CustomerInfoCallback>
 
-    init(httpClient: HTTPClient,
-         authHeaders: [String: String],
+    init(configuration: Configuration,
          customerInfoResponseHandler: CustomerInfoResponseHandler = CustomerInfoResponseHandler(),
          customerInfoCallbackCache: CallbackCache<CustomerInfoCallback>) {
         self.customerInfoResponseHandler = customerInfoResponseHandler
         self.customerInfoCallbackCache = customerInfoCallbackCache
 
-        super.init(httpClient: httpClient, authHeaders: authHeaders)
+        super.init(configuration: configuration)
     }
 
     func getSubscriberData(appUserID: String, completion: @escaping BackendCustomerInfoResponseHandler) {

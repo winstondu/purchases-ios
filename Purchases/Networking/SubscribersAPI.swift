@@ -35,8 +35,8 @@ class SubscribersAPI {
     }
 
     func createAlias(appUserID: String, newAppUserID: String, completion: PostRequestResponseHandler?) {
-        let operation = CreateAliasOperation(httpClient: self.httpClient,
-                                             authHeaders: self.authHeaders,
+        let config = NetworkOperation.Configuration(httpClient: self.httpClient, authHeaders: self.authHeaders)
+        let operation = CreateAliasOperation(configuration: config,
                                              aliasCallbackCache: self.aliasCallbackCache)
         operationQueue.addOperation {
             operation.createAlias(appUserID: appUserID, newAppUserID: newAppUserID, maybeCompletion: completion)
@@ -44,8 +44,8 @@ class SubscribersAPI {
     }
 
     func getSubscriberData(appUserID: String, completion: @escaping BackendCustomerInfoResponseHandler) {
-        let operation = GetSubscriberDataOperation(httpClient: self.httpClient,
-                                                   authHeaders: self.authHeaders,
+        let config = NetworkOperation.Configuration(httpClient: self.httpClient, authHeaders: self.authHeaders)
+        let operation = GetSubscriberDataOperation(configuration: config,
                                                    customerInfoCallbackCache: self.customerInfoCallbackCache)
         operationQueue.addOperation {
             operation.getSubscriberData(appUserID: appUserID, completion: completion)
@@ -55,7 +55,8 @@ class SubscribersAPI {
     func post(subscriberAttributes: SubscriberAttributeDict,
               appUserID: String,
               completion: PostRequestResponseHandler?) {
-        let operation = PostSubscriberAttributesOperation(httpClient: self.httpClient, authHeaders: self.authHeaders)
+        let config = NetworkOperation.Configuration(httpClient: self.httpClient, authHeaders: self.authHeaders)
+        let operation = PostSubscriberAttributesOperation(configuration: config)
         operationQueue.addOperation {
             operation.post(subscriberAttributes: subscriberAttributes, appUserID: appUserID, completion: completion)
         }
@@ -70,8 +71,8 @@ class SubscribersAPI {
               observerMode: Bool,
               subscriberAttributes subscriberAttributesByKey: SubscriberAttributeDict?,
               completion: @escaping BackendCustomerInfoResponseHandler) {
-        let operation = PostReceiptDataOperation(httpClient: self.httpClient,
-                                                 authHeaders: self.authHeaders,
+        let config = NetworkOperation.Configuration(httpClient: self.httpClient, authHeaders: self.authHeaders)
+        let operation = PostReceiptDataOperation(configuration: config,
                                                  customerInfoCallbackCache: self.customerInfoCallbackCache)
         operationQueue.addOperation {
             operation.post(receiptData: receiptData,

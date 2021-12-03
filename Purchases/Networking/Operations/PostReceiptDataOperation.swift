@@ -19,8 +19,7 @@ class PostReceiptDataOperation: NetworkOperation {
     private let customerInfoResponseHandler: CustomerInfoResponseHandler
     private let customerInfoCallbackCache: CallbackCache<CustomerInfoCallback>
 
-    init(httpClient: HTTPClient,
-         authHeaders: [String: String],
+    init(configuration: Configuration,
          subscriberAttributesMarshaller: SubscriberAttributesMarshaller = SubscriberAttributesMarshaller(),
          customerInfoResponseHandler: CustomerInfoResponseHandler = CustomerInfoResponseHandler(),
          customerInfoCallbackCache: CallbackCache<CustomerInfoCallback>) {
@@ -28,7 +27,7 @@ class PostReceiptDataOperation: NetworkOperation {
         self.customerInfoResponseHandler = customerInfoResponseHandler
         self.customerInfoCallbackCache = customerInfoCallbackCache
 
-        super.init(httpClient: httpClient, authHeaders: authHeaders)
+        super.init(configuration: configuration)
     }
 
     // swiftlint:disable:next function_parameter_count

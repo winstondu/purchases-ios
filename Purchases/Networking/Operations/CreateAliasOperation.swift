@@ -18,14 +18,20 @@ class CreateAliasOperation: NetworkOperation {
     let aliasCallbackCache: CallbackCache<AliasCallback>
     let createAliasResponseHandler: PostAttributionDataResponseHandler
 
-    init(httpClient: HTTPClient,
-         authHeaders: [String: String],
+    init(configuration: Configuration,
          createAliasResponseHandler: PostAttributionDataResponseHandler = PostAttributionDataResponseHandler(),
          aliasCallbackCache: CallbackCache<AliasCallback>) {
         self.createAliasResponseHandler = createAliasResponseHandler
         self.aliasCallbackCache = aliasCallbackCache
 
-        super.init(httpClient: httpClient, authHeaders: authHeaders)
+        super.init(configuration: configuration)
+    }
+
+    override func main() {
+        if self.isCancelled {
+            return
+        }
+
     }
 
     func createAlias(appUserID: String, newAppUserID: String, maybeCompletion: PostRequestResponseHandler?) {
@@ -46,6 +52,7 @@ class CreateAliasOperation: NetworkOperation {
                                       requestBody: ["new_app_user_id": newAppUserID],
                                       headers: authHeaders) { statusCode, response, error in
             self.aliasCallbackCache.performOnAllItemsAndRemoveFromCache(withKey: cacheKey) { aliasCallback in
+
                 guard let completion = aliasCallback.callback else {
                     return
                 }
