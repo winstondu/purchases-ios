@@ -123,14 +123,14 @@ class Backend {
               network: AttributionNetwork,
               appUserID: String,
               completion: PostRequestResponseHandler?) {
-        let config = NetworkOperation.Configuration(httpClient: self.httpClient, authHeaders: self.authHeaders)
-        let postAttributionDataOperation = PostAttributionDataOperation(configuration: config)
-        self.operationQueue.addOperation {
-            postAttributionDataOperation.post(attributionData: attributionData,
-                                              network: network,
-                                              appUserID: appUserID,
-                                              maybeCompletion: completion)
-        }
+        let config = NetworkOperation.UserSpecificConfiguration(httpClient: self.httpClient,
+                                                                authHeaders: self.authHeaders,
+                                                                appUserID: appUserID)
+        let postAttributionDataOperation = PostAttributionDataOperation(configuration: config,
+                                                                        attributionData: attributionData,
+                                                                        network: network,
+                                                                        maybeCompletion: completion)
+        self.operationQueue.addOperation(postAttributionDataOperation)
     }
 
     func logIn(currentAppUserID: String,
