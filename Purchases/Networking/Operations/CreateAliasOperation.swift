@@ -18,12 +18,20 @@ class CreateAliasOperation: NetworkOperation {
     let aliasCallbackCache: CallbackCache<AliasCallback>
     let createAliasResponseHandler: PostAttributionDataResponseHandler
 
-    init(configuration: Configuration,
+    let newAppUserID: String
+    let maybeCompletion: PostRequestResponseHandler?
+    let configuration: UserSpecificConfiguration
+
+    init(configuration: UserSpecificConfiguration,
+         newAppUserID: String,
+         maybeCompletion: PostRequestResponseHandler?,
          createAliasResponseHandler: PostAttributionDataResponseHandler = PostAttributionDataResponseHandler(),
          aliasCallbackCache: CallbackCache<AliasCallback>) {
         self.createAliasResponseHandler = createAliasResponseHandler
         self.aliasCallbackCache = aliasCallbackCache
-
+        self.newAppUserID = newAppUserID
+        self.maybeCompletion = maybeCompletion
+        self.configuration = configuration
         super.init(configuration: configuration)
     }
 
@@ -32,10 +40,13 @@ class CreateAliasOperation: NetworkOperation {
             return
         }
 
+        createAlias(appUserID: self.configuration.appUserID,
+                    newAppUserID: self.newAppUserID,
+                    maybeCompletion: self.maybeCompletion)
     }
 
     func createAlias(appUserID: String, newAppUserID: String, maybeCompletion: PostRequestResponseHandler?) {
-        guard let appUserID = try? appUserID.escapedOrError() else {
+        guard let appUserID = try? configuration.appUserID.escapedOrError() else {
             maybeCompletion?(ErrorUtils.missingAppUserIDError())
             return
         }

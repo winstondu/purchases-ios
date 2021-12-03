@@ -35,12 +35,14 @@ class SubscribersAPI {
     }
 
     func createAlias(appUserID: String, newAppUserID: String, completion: PostRequestResponseHandler?) {
-        let config = NetworkOperation.Configuration(httpClient: self.httpClient, authHeaders: self.authHeaders)
+        let config = NetworkOperation.UserSpecificConfiguration(httpClient: self.httpClient,
+                                                                authHeaders: self.authHeaders,
+                                                                appUserID: appUserID)
         let operation = CreateAliasOperation(configuration: config,
+                                             newAppUserID: newAppUserID,
+                                             maybeCompletion: completion,
                                              aliasCallbackCache: self.aliasCallbackCache)
-        operationQueue.addOperation {
-            operation.createAlias(appUserID: appUserID, newAppUserID: newAppUserID, maybeCompletion: completion)
-        }
+        operationQueue.addOperation(operation)
     }
 
     func getSubscriberData(appUserID: String, completion: @escaping BackendCustomerInfoResponseHandler) {
