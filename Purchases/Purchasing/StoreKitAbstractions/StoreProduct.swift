@@ -71,6 +71,19 @@ public typealias SK2Product = StoreKit.Product
     //    //
     //    @available(iOS 12.2, *)
     //    var discounts: [SKProductDiscount] { get }
+
+    @available(iOS 11.2, macOS 10.13.2, tvOS 11.2, watchOS 6.2, *)
+    @objc public func priceAsMonthly() -> Decimal {
+        guard let subscriptionPeriod = subscriptionPeriod else {
+            return 0
+        }
+
+        let monthlySubscriptionPeriod = SubscriptionPeriod(value: 1, unit: .month)
+        return PriceAsPeriodCalculator().price(for: subscriptionPeriod,
+                                                  as: monthlySubscriptionPeriod,
+                                                  subscriptionPrice: price)
+    }
+
 }
 
 @available(iOS 15.0, tvOS 15.0, watchOS 8.0, macOS 12.0, *)
