@@ -14,39 +14,52 @@
 import Foundation
 
 struct PriceAsPeriodCalculator {
-    private let factorsByStartAndTargetPeriod: [SubscriptionPeriod.PeriodUnit: [SubscriptionPeriod.PeriodUnit: Decimal]] = [
-        .day: [
-            .day: 1.0,
-            .week: 1 / 7.0,
-            .month: 1 / 30.0,
-            .year: 1 / 365.0
-        ],
-        .week: [
-            .day: 7.0,
-            .week: 1.0,
-            .month: 1 / 4.0,
-            .year: 1 / 52.0
-        ],
-        .month: [
-            .day: 30.0,
-            .week: 4.0,
-            .month: 1.0,
-            .year: 1 / 12.0
-        ],
-        .year: [
-            .day: 365.0,
-            .week: 52.0,
-            .month: 12.0,
-            .year: 1.0
-        ]
-    ]
+
+    // swiftlint:disable:next cyclomatic_complexity
+    func dividingFactor(for fromSubscriptionPeriod: SubscriptionPeriod,
+                        as toSubscriptionPeriod: SubscriptionPeriod) -> Decimal {
+        switch fromSubscriptionPeriod.unit {
+        case .day:
+            switch toSubscriptionPeriod.unit {
+            case .day: return 1.0
+            case .week: return 1 / 7.0
+            case .month: return 1 / 30.0
+            case .year: return 1 / 365.0
+            case .unknown: return 0.0
+            }
+        case .week:
+            switch toSubscriptionPeriod.unit {
+            case .day: return  7.0
+            case .week: return  1.0
+            case .month: return  1 / 4.0
+            case .year: return  1 / 52.0
+            case .unknown: return 0.0
+            }
+        case .month:
+            switch toSubscriptionPeriod.unit {
+            case .day: return 30.0
+            case .week: return 4.0
+            case .month: return 1.0
+            case .year: return 1 / 12.0
+            case .unknown: return 0.0
+            }
+        case .year:
+            switch toSubscriptionPeriod.unit {
+            case .day: return 365.0
+            case .week: return 52.0
+            case .month: return 12.0
+            case .year: return 1.0
+            case .unknown: return 0.0
+            }
+        case .unknown:
+            return 0.0
+        }
+    }
 
     func price(for fromSubscriptionPeriod: SubscriptionPeriod,
                as toSubscriptionPeriod: SubscriptionPeriod,
                subscriptionPrice: Decimal) -> Decimal {
-        guard let dividingFactor = factorsByStartAndTargetPeriod[fromSubscriptionPeriod.unit]?[toSubscriptionPeriod.unit] else {
-            return 0.0
-        }
+        let dividingFactor = dividingFactor(for: fromSubscriptionPeriod, as: toSubscriptionPeriod)
         let behavior = NSDecimalNumberHandler(roundingMode: .down,
                                               scale: 2,
                                               raiseOnExactness: false,
