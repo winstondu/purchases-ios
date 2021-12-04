@@ -1012,9 +1012,7 @@ class BackendTests: XCTestCase {
         let response = HTTPResponse(statusCode: 200, response: nil, error: nil)
         httpClient.mock(requestPath: "/subscribers/" + userID + "/alias", response: response)
 
-        backend?.createAlias(appUserID: userID, newAppUserID: "new_alias") { _ in
-            self.simulateNetworkDelay()
-        }
+        backend?.createAlias(appUserID: userID, newAppUserID: "new_alias") { _ in }
         backend?.createAlias(appUserID: userID, newAppUserID: "new_alias", completion: { _ in })
 
         expect(self.httpClient.calls.count).toEventually(equal(1))
@@ -1027,12 +1025,9 @@ class BackendTests: XCTestCase {
         var completion1Called = false
         var completion2Called = false
 
-        backend?.createAlias(appUserID: userID, newAppUserID: "new_alias") { _ in
-            self.simulateNetworkDelay()
-        }
+        backend?.createAlias(appUserID: userID, newAppUserID: "new_alias") { _ in }
 
         backend?.createAlias(appUserID: userID, newAppUserID: "new_alias") { _ in
-            self.simulateNetworkDelay()
             completion1Called = true
         }
 
@@ -1040,9 +1035,9 @@ class BackendTests: XCTestCase {
             completion2Called = true
         }
 
-        expect(self.httpClient.calls.count).toEventually(equal(1))
-        expect(completion1Called).toEventually(beTrue())
         expect(completion2Called).toEventually(beTrue())
+        expect(completion1Called).toEventually(beTrue())
+        expect(self.httpClient.calls.count).toEventually(equal(1))
     }
 
     func testCreateAliasDoesntCacheForDifferentCurrentUserID() {
