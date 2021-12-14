@@ -15,6 +15,8 @@
 import Foundation
 import StoreKit
 
+// swiftlint:disable file_length
+
 class ErrorUtils: NSObject {
 
     /**
@@ -166,15 +168,8 @@ class ErrorUtils: NSObject {
     /**
      * Constructs an Error with the ``ErrorCode/unknownError`` code and optional message.
      */
-    static func unknownError(message: String? = nil) -> Error {
-        return error(with: ErrorCode.unknownError, message: message)
-    }
-
-    /**
-     * Constructs an Error with the ``ErrorCode/unknownError`` code.
-     */
-    static func unknownError() -> Error {
-        return error(with: ErrorCode.unknownError, message: nil)
+    static func unknownError(message: String? = nil, error: Error? = nil) -> Error {
+        return ErrorUtils.error(with: ErrorCode.unknownError, message: message, underlyingError: error)
     }
 
     /**
@@ -208,6 +203,17 @@ class ErrorUtils: NSObject {
     }
 
     /**
+     * Maps a `StoreKitError` to an `Error` with a ``ErrorCode``.
+     * Adds a underlying error in the `NSError.userInfo` dictionary.
+     *
+     * - Parameter skError: The originating `StoreKitError`.
+     */
+    @available(iOS 15.0, tvOS 15.0, watchOS 8.0, macOS 12.0, *)
+    static func purchasesError(withStoreKitError storeKitError: Error) -> Error {
+        return  (storeKitError as? StoreKitError)?.toPurchasesError() ?? self.unknownError()
+    }
+
+    /**
      * Constructs an Error with the ``ErrorCode/purchaseCancelledError`` code.
      *
      * - Note: This error is used when  a purchase is cancelled by the user.
@@ -220,11 +226,21 @@ class ErrorUtils: NSObject {
     }
 
     /**
+     * Constructs an Error with the ``ErrorCode/productNotAvailableForPurchaseError`` code.
+     *
+     * - Seealso: ``StoreKitError.notAvailableInStorefront``
+     */
+    @objc static func productNotAvailableForPurchaseError(error: Error? = nil) -> Error {
+        return ErrorUtils.error(with: .productNotAvailableForPurchaseError,
+                                underlyingError: error)
+    }
+
+    /**
      * Constructs an Error with the ``ErrorCode/storeProblemError`` code.
      *
      * - Note: This error is used when there is a problem with the App Store.
      */
-    @objc static func storeProblemError(withMessage message: String, error: Error? = nil) -> Error {
+    @objc static func storeProblemError(withMessage message: String? = nil, error: Error? = nil) -> Error {
         let errorCode = ErrorCode.storeProblemError
         return ErrorUtils.error(with: errorCode,
                                 message: message,
