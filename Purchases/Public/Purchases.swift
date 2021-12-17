@@ -52,6 +52,16 @@ public typealias DeferredPromotionalPurchaseBlock = (@escaping PurchaseCompleted
 
         return purchases
     }
+
+    @objc public func parseCustomerInfo(fromJSONString json: String) -> CustomerInfo {
+        // swiftlint:disable force_try
+        let jsonObject = try! JSONSerialization.jsonObject(with: json.data(using: .utf8)!,
+                                                           options: .mutableContainers) as? [String: Any]
+        let customerInfo = try! self.backend.parseCustomerInfo(fromMaybeResponse: jsonObject)
+        // swiftlint:enable force_try
+        return customerInfo
+    }
+
     private static var purchases: Purchases?
 
     @objc public static var isConfigured: Bool { purchases != nil }
