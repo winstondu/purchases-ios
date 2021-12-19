@@ -234,11 +234,11 @@ import Foundation
     fileprivate struct SubscriberData {
 
         // swiftlint:disable:next nesting
-        enum SubscriberDataError: Int, DescribableError {
+        enum SubscriberDataError: DescribableError {
 
-            case originalAppUserIdMissing = 0
+            case originalAppUserIdMissing
             case firstSeenMissing
-            case firstSeenFormat
+            case firstSeenFormat(String)
 
             var description: String {
                 switch self {
@@ -246,8 +246,8 @@ import Foundation
                     return "Missing property \"original_app_user_id\" from json."
                 case .firstSeenMissing:
                     return "Missing propery \"first_seen\" from json."
-                case .firstSeenFormat:
-                    return "Unable to parse \"first_seen\" due to formatting issues."
+                case .firstSeenFormat(let string):
+                    return "Unable to parse \"first_seen\" (\(string)) due to formatting issues."
                 }
             }
 
@@ -282,7 +282,7 @@ import Foundation
             }
 
             guard let firstSeenDate = dateFormatter.date(from: firstSeenDateString) else {
-                throw SubscriberDataError.firstSeenFormat
+                throw SubscriberDataError.firstSeenFormat(firstSeenDateString)
             }
 
             self.firstSeen = firstSeenDate
