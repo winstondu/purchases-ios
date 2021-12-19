@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1300"
+   LastUpgradeVersion = "1320"
    version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -28,9 +28,51 @@
             buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "A55F62B426EAFFD200A1B466"
+               BuildableName = "SwiftAPITester"
+               BlueprintName = "SwiftAPITester"
+               ReferencedContainer = "container:APITesters/SwiftAPITester/SwiftAPITester.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "A519264826EBCEF6007D0BD1"
+               BuildableName = "ObjCAPITester"
+               BlueprintName = "ObjCAPITester"
+               ReferencedContainer = "container:APITesters/ObjCAPITester/ObjCAPITester.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "2DC5621D24EC63430031F69B"
                BuildableName = "RevenueCatTests.xctest"
                BlueprintName = "RevenueCatTests"
+               ReferencedContainer = "container:RevenueCat.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "NO"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "2DAC5F7126F13C9800C5258F"
+               BuildableName = "StoreKitUnitTests.xctest"
+               BlueprintName = "StoreKitUnitTests"
                ReferencedContainer = "container:RevenueCat.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -43,8 +85,17 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:RevenueCat.xcodeproj/RevenueCat.xctestplan"
+            reference = "container:TestPlans/RevenueCat.xctestplan">
+         </TestPlanReference>
+         <TestPlanReference
+            reference = "container:TestPlans/UnitTests.xctestplan">
+         </TestPlanReference>
+         <TestPlanReference
+            reference = "container:TestPlans/AllTests.xctestplan"
             default = "YES">
+         </TestPlanReference>
+         <TestPlanReference
+            reference = "container:TestPlans/Coverage.xctestplan">
          </TestPlanReference>
       </TestPlans>
       <Testables>

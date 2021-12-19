@@ -344,7 +344,7 @@ enum CustomerInfoError: Int, DescribableError {
 private extension CustomerInfo {
 
     static func createSubscriberDataError(_ error: Error, subscriberDictionary: [String: Any]) -> Error {
-        Logger.error(Strings.customerInfo.cant_instantiate_from_json_object(maybeJsonObject: subscriberDictionary))
+        Logger.error(Strings.customerInfo.cant_instantiate_from_json_object(subError: error, maybeJsonObject: subscriberDictionary))
 
         guard let subscriberDataError = error as? SubscriberData.SubscriberDataError else {
             return CustomerInfoError.cantInstantiateJsonObject.addingUnderlyingError(error)

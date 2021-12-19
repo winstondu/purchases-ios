@@ -438,8 +438,12 @@ class Backend {
             return try CustomerInfo(data: customerJson)
         } catch {
             let parsingError = UnexpectedBackendResponseSubErrorCode.customerInfoResponseParsing
+            var extraContext = customerJson.stringRepresentation
+            if let json = try? JSONSerialization.data(withJSONObject: customerJson, options: .prettyPrinted), let jsonString = String(data: json, encoding: .utf8) {
+                extraContext = jsonString
+            }
             let subError = parsingError.addingUnderlyingError(error,
-                                                              extraContext: customerJson.stringRepresentation)
+                                                              extraContext: extraContext)
             throw subError
         }
     }

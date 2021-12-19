@@ -33,7 +33,7 @@ enum CustomerInfoStrings {
     case invalid_json
 
     case missing_json_object_instantiation_error(maybeJsonData: [String: Any]?)
-    case cant_instantiate_from_json_object(maybeJsonObject: [String: Any]?)
+    case cant_instantiate_from_json_object(subError: Error, maybeJsonObject: [String: Any]?)
     case cant_parse_request_date_from_json(maybeDate: Any?)
     case cant_parse_request_date_from_string(string: String)
 
@@ -77,8 +77,11 @@ extension CustomerInfoStrings: CustomStringConvertible {
                 message += ":\n\(jsonData.debugDescription)"
             }
             return message
-        case .cant_instantiate_from_json_object(let maybeJsonObject):
+        case .cant_instantiate_from_json_object(let subError, let maybeJsonObject):
             var message = "Unable to instantiate SubscriberData from json object"
+            if let describableError = subError as? DescribableError {
+                message += " (reason: \(describableError.description))"
+            }
             if let jsonObject = maybeJsonObject {
                 message += ":\n\(jsonObject.debugDescription)"
             }
